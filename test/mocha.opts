@@ -1,0 +1,3 @@
+--reporter spec
+--trace-deprecation
+--check-leaks

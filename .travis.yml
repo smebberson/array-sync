@@ -1,0 +1,8 @@
+language: node_js
+node_js:
+    - "4.2"
+    - "stable"
+script:
+    - "npm run travis"
+after_script:
+    - "npm install codecov && ./node_modules/.bin/codecov"

@@ -1,0 +1,35 @@
+{
+  "name": "array-sync",
+  "version": "0.0.1",
+  "description": "Data synchronisation module for Node.js",
+  "main": "index.js",
+  "engines": {
+    "node": ">= 4.0"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/mocha",
+    "coverage": "./vagrant/scripts/test-coverage",
+    "travis": "./vagrant/scripts/test-travis"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smebberson/array-sync.git"
+  },
+  "keywords": [
+    "data",
+    "synchronisation",
+    "sync",
+    "array"
+  ],
+  "author": "Scott Mebberson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/smebberson/array-sync/issues"
+  },
+  "homepage": "https://github.com/smebberson/array-sync#readme",
+  "devDependencies": {
+    "chai": "3.5.0",
+    "istanbul": "0.4.2",
+    "mocha": "2.4.5"
+  }
+}
