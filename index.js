@@ -1,4 +1,6 @@
 
+var Promise = require('bluebird');
+
 /**
  * Data synchronisation module for Node.js.
  *
@@ -18,10 +20,14 @@ module.exports = function arraySync (source, update, callback) {
         throw Error('You must provide an update Array for arraySync to inspect.');
     }
 
-    return callback(null, {
-        remove: [],
-        unchanged: [],
-        create: []
-    });
+    return new Promise(function (resolve, reject) {
+
+        return resolve({
+            remove: [],
+            unchanged: [],
+            create: []
+        });
+
+    }).asCallback(callback);
 
 }

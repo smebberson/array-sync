@@ -24,9 +24,32 @@ describe('arraySync', function () {
 
     });
 
-    describe('returns an object', function () {
+    describe('via promise', function () {
 
-        it('via callback', function () {
+        it('will resolve to an object with the keys remove, unchanged, create', function (done) {
+
+            arraySync([], []).then(function (results) {
+
+                expect(results).to.exist;
+                expect(results).to.have.property('remove');
+                expect(results).to.have.property('unchanged');
+                expect(results).to.have.property('create');
+
+                return done();
+
+            }, function (err) {
+
+                return done(err);
+
+            });
+
+        });
+
+    });
+
+    describe('via callback', function () {
+
+        it('returns an object with the keys remove, unchanged, create', function (done) {
 
             arraySync([], [], function (err, results) {
 
@@ -34,6 +57,8 @@ describe('arraySync', function () {
                 expect(results).to.have.property('remove');
                 expect(results).to.have.property('unchanged');
                 expect(results).to.have.property('create');
+
+                return done(err);
 
             });
 
