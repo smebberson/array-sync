@@ -85,6 +85,17 @@ module.exports = function arraySync (source, update, opts, callback) {
 
         });
 
+        // Find the new values.
+        r.create = update.filter(function (updateValue) {
+
+            return source.find(function (element, index, array) {
+
+                return comparator(updateValue, element) === true;
+
+            }) === undefined;
+
+        });
+
         // Resolve the result.
         return resolve(r);
 

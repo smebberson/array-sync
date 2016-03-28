@@ -138,6 +138,61 @@ describe('arraySync', function () {
 
         });
 
+        describe('determine which records should be created', function () {
+
+            it('when working with strings', function (done) {
+
+                arraySync(['one', 'two', 'three', 'four'], ['one', 'two', 'three', 'four', 'five']).then(function (result) {
+
+                    expect(result).to.exist;
+                    expect(result).to.have.property('unchanged');
+                    expect(result).to.have.property('remove');
+
+                    expect(result).to.have.property('create');
+                    expect(result.create).to.have.length(1);
+                    expect(result.create[0]).to.equal('five');
+
+                    return done();
+
+                }, function (err) {
+
+                    return done(err);
+
+                });
+
+            });
+
+            it('when working with objects', function (done) {
+
+                arraySync([
+                    { type: 'node', label: 'one' },
+                    { type: 'node', label: 'two' }
+                ], [
+                    { type: 'node', label: 'one' },
+                    { type: 'node', label: 'two' },
+                    { type: 'node', label: 'three' }
+                ]).then(function (result) {
+
+                    expect(result).to.exist;
+                    expect(result).to.have.property('unchanged');
+                    expect(result).to.have.property('remove');
+
+                    expect(result).to.have.property('create');
+                    expect(result.create).to.have.length(1);
+                    expect(result.create[0]).to.eql({ type: 'node', label: 'three' });
+
+                    return done();
+
+                }, function (err) {
+
+                    return done(err);
+
+                });
+
+            });
+
+        });
+
     });
 
 });
