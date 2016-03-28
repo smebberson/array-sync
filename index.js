@@ -96,6 +96,17 @@ module.exports = function arraySync (source, update, opts, callback) {
 
         });
 
+        // Determine the unchanged values (those that aren't new, nor missing).
+        r.unchanged = source.filter(function (sourceValue) {
+
+            return r.remove.concat(r.create).find(function (element, index, array) {
+
+                return comparator(sourceValue, element) === true;
+
+            }) === undefined;
+
+        });
+
         // Resolve the result.
         return resolve(r);
 

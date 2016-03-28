@@ -193,6 +193,65 @@ describe('arraySync', function () {
 
         });
 
+        describe('determine which records are unchanged', function () {
+
+            it('when working with strings', function (done) {
+
+                arraySync(['one', 'two', 'three', 'four'], ['one', 'two', 'three', 'four', 'five']).then(function (result) {
+
+                    expect(result).to.exist;
+                    expect(result).to.have.property('remove');
+                    expect(result).to.have.property('create');
+
+                    expect(result).to.have.property('unchanged');
+                    expect(result.unchanged).to.have.length(4);
+                    expect(result.unchanged[0]).to.equal('one');
+                    expect(result.unchanged[1]).to.equal('two');
+                    expect(result.unchanged[2]).to.equal('three');
+                    expect(result.unchanged[3]).to.equal('four');
+
+                    return done();
+
+                }, function (err) {
+
+                    return done(err);
+
+                });
+
+            });
+
+            it('when working with objects', function (done) {
+
+                arraySync([
+                    { type: 'node', label: 'one' },
+                    { type: 'node', label: 'two' }
+                ], [
+                    { type: 'node', label: 'one' },
+                    { type: 'node', label: 'two' },
+                    { type: 'node', label: 'three' }
+                ]).then(function (result) {
+
+                    expect(result).to.exist;
+                    expect(result).to.have.property('remove');
+                    expect(result).to.have.property('create');
+
+                    expect(result).to.have.property('unchanged');
+                    expect(result.unchanged).to.have.length(2);
+                    expect(result.unchanged[0]).to.eql({ type: 'node', label: 'one' });
+                    expect(result.unchanged[1]).to.eql({ type: 'node', label: 'two' });
+
+                    return done();
+
+                }, function (err) {
+
+                    return done(err);
+
+                });
+
+            });
+
+        });
+
     });
 
 });
