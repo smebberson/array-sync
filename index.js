@@ -179,6 +179,10 @@ module.exports = function arraySync (source, update, opts, callback) {
     // Default `opts` to an Object.
     opts = opts || {};
 
+    if (opts.comparator && !opts.key) {
+        throw Error('You must provide a key when passing in a custom comparator function.')
+    }
+
     // Return a promise (which will execute the callback if provided).
     return new Promise(function (resolve, reject) {
 
