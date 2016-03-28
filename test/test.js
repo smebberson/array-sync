@@ -1,5 +1,6 @@
 
 var expect = require('chai').expect,
+    clone = require('clone'),
     arraySync = require('../');
 
 describe('arraySync', function () {
@@ -409,11 +410,11 @@ describe('arraySync', function () {
                 var called = false;
 
                 arraySync([
-                    { type: 'fruit', _id: 1, label: 'Apple' },
-                    { type: 'fruit', _id: 2, label: 'Cucumber' }
+                    { type: 'fruit', _id: 1, label: 'Apple', stats: { views: 1, purchases: 1 } },
+                    { type: 'fruit', _id: 2, label: 'Cucumber', stats: { views: 10, purchases: 2 } }
                 ], [
-                    { type: 'fruit', _id: 1, label: 'Apple' },
-                    { type: 'vegetable', _id: 2, label: 'Cucumber' }
+                    { type: 'fruit', _id: 1, label: 'Apple', stats: { views: 20, purchases: 2 } },
+                    { type: 'vegetable', _id: 2, label: 'Cucumber', stats: {views: 20, purchases: 5 } }
                 ], {
                     key: '_id',
                     comparator: function comparator (objOne, objTwo) {
@@ -423,8 +424,15 @@ describe('arraySync', function () {
                         // Compare an object to an object.
                         if (typeof objOne === 'object') {
 
+                            var oOne = clone(objOne),
+                                oTwo = clone(objTwo);
+
+                            // delete keys we don't want to compare
+                            delete oOne.stats;
+                            delete oTwo.stats;
+
                             try {
-                                expect(objOne).to.deep.equal(objTwo);
+                                expect(oOne).to.deep.equal(oTwo);
                             } catch (e) {
                                 return false;
                             }
