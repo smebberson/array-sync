@@ -252,6 +252,80 @@ describe('arraySync', function () {
 
         });
 
+        describe('determine which records are unchanged, to be removed and to be created', function () {
+
+            it('when working with strings', function (done) {
+
+                arraySync(['one', 'two', 'three', 'four'], ['one', 'three', 'four', 'five']).then(function (result) {
+
+                    expect(result).to.exist;
+
+                    expect(result).to.have.property('remove');
+                    expect(result.remove).to.have.length(1);
+                    expect(result.remove[0]).to.equal('two');
+
+                    expect(result).to.have.property('create');
+                    expect(result.create).to.have.length(1);
+                    expect(result.create[0]).to.equal('five');
+
+                    expect(result).to.have.property('unchanged');
+                    expect(result.unchanged).to.have.length(3);
+                    expect(result.unchanged[0]).to.equal('one');
+                    expect(result.unchanged[1]).to.equal('three');
+                    expect(result.unchanged[2]).to.equal('four');
+
+                    return done();
+
+                }, function (err) {
+
+                    return done(err);
+
+                });
+
+            });
+
+            it('when working with objects', function (done) {
+
+                arraySync([
+                    { type: 'node', label: 'one' },
+                    { type: 'node', label: 'two' },
+                    { type: 'node', label: 'three' },
+                    { type: 'node', label: 'four' }
+                ], [
+                    { type: 'node', label: 'one' },
+                    { type: 'node', label: 'two' },
+                    { type: 'node', label: 'three' },
+                    { type: 'node', label: 'five' }
+                ]).then(function (result) {
+
+                    expect(result).to.exist;
+
+                    expect(result).to.have.property('remove');
+                    expect(result.remove).to.have.length(1);
+                    expect(result.remove[0]).to.eql({ type: 'node', label: 'four' });
+
+                    expect(result).to.have.property('create');
+                    expect(result.create).to.have.length(1);
+                    expect(result.create[0]).to.eql({ type: 'node', label: 'five' });
+
+                    expect(result).to.have.property('unchanged');
+                    expect(result.unchanged).to.have.length(3);
+                    expect(result.unchanged[0]).to.eql({ type: 'node', label: 'one' });
+                    expect(result.unchanged[1]).to.eql({ type: 'node', label: 'two' });
+                    expect(result.unchanged[2]).to.eql({ type: 'node', label: 'three' });
+
+                    return done();
+
+                }, function (err) {
+
+                    return done(err);
+
+                });
+
+            });
+
+        });
+
     });
 
 });
