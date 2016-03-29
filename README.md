@@ -102,7 +102,7 @@ arraySync([
 
     // result = {
     //     unchanged: [1, 3],
-    //     changed: [2]
+    //     changed: [{ type: 'node', id: 2, label: 'Two' }]
     //     create: [],
     //     remove: []
     // }
@@ -110,7 +110,7 @@ arraySync([
 });
 ```
 
-If a `key` is provided array-sync adds another key to the object it returns (`changed`) and also only returns the value of the `key` against each item within the array. For database stored information (with an `id`), this is the more likely scenario and use case.
+If a `key` is provided array-sync adds another key to the object it returns (`changed`). Also only the value of the `key` is returned in `unchanged` and `remove`, whereas the whole object is returned in `changed` and `create`. For database stored information (with an `id`), using a `key` is the more likely scenario and use case.
 
 ##### comparator
 

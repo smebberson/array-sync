@@ -107,10 +107,11 @@ function findUnchangedValues (source, removeCreateAndChanged, opts) {
 
         return removeCreateAndChanged.find(function (element, index, array) {
 
-            // If we have a key, we only want to compare when the key is the same.
+            // If we have a key, we only want to compare the actual key is the same.
             if (opts.key) {
-                return (opts.comparator || comparator)(sourceValue[opts.key], element[opts.key]) === true && (opts.comparator || comparator)(sourceValue, element, opts.key) === true;
+                return (opts.comparator || comparator)(sourceValue[opts.key], element[opts.key]) === true;
             }
+
             return (opts.comparator || comparator)(sourceValue, element) === true;
 
         }) === undefined;
@@ -140,7 +141,17 @@ function findChangedValues (source, update, opts) {
 
         }) !== undefined;
 
+    // We always have a key if this function is executing, make sure we pass back the changed values, not those from the source.
+    }).map(function (sourceValue) {
+
+        return update.find(function (element, index, array) {
+
+            return (opts.comparator || comparator)(sourceValue[opts.key], element[opts.key]) === true;
+
+        });
+
     });
+
 
     return r;
 
@@ -210,8 +221,6 @@ module.exports = function arraySync (source, update, opts, callback) {
         // If we have a `key`, transform the results to contain only the key Object.
         if (opts.key) {
             r.remove = mapToKey(r.remove, opts.key);
-            r.create = mapToKey(r.create, opts.key);
-            r.changed = mapToKey(r.changed, opts.key);
             r.unchanged = mapToKey(r.unchanged, opts.key);
         }
 

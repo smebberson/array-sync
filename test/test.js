@@ -384,7 +384,7 @@ describe('arraySync', function () {
 
                     expect(result).to.have.property('create');
                     expect(result.create).to.have.length(1);
-                    expect(result.create[0]).to.eql('six');
+                    expect(result.create[0]).to.eql({ type: 'vegetable', _id: 'six', label: 'Pumpkin' });
 
                     expect(result).to.have.property('remove');
                     expect(result.remove).to.have.length(1);
@@ -392,7 +392,7 @@ describe('arraySync', function () {
 
                     expect(result).to.have.property('changed');
                     expect(result.changed).to.have.length(1);
-                    expect(result.changed[0]).to.eql('four');
+                    expect(result.changed[0]).to.eql({ type: 'vegetable', _id: 'four', label: 'Cucumber' });
 
 
                     return done(err);
@@ -463,7 +463,7 @@ describe('arraySync', function () {
 
                     expect(result).to.have.property('changed');
                     expect(result.changed).to.have.length(1);
-                    expect(result.changed[0]).to.eql(2);
+                    expect(result.changed[0]).to.eql({ type: 'vegetable', _id: 2, label: 'Cucumber', stats: {views: 20, purchases: 5 } });
 
                     expect(called).to.equal(true);
 
