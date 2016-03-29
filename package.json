@@ -1,6 +1,6 @@
 {
   "name": "array-sync",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Data synchronisation module for Node.js",
   "main": "index.js",
   "engines": {
