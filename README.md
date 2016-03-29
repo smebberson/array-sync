@@ -39,11 +39,11 @@ array-sync will return a promise unless a `callback` function has been provided.
 
 #### source
 
-The `source` array. Must be provided. array-sync will `throw` if it isn't provided.
+The `source` array. It must be provided. array-sync will `throw` if it isn't provided.
 
 #### updated
 
-An updated version of the `source` array. Must be provided (can be empty). array-sync will `throw` if it isn't provided.
+An updated version of the `source` array. It also must be provided (however, it can be empty). array-sync will `throw` if it isn't provided.
 
 #### callback
 
