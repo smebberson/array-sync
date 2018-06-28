@@ -112,6 +112,10 @@ arraySync([
 
 If a `key` is provided array-sync adds another key to the object it returns (`changed`). Also only the value of the `key` is returned in `unchanged` and `remove`, whereas the whole object is returned in `changed` and `create`. For database stored information (with an `id`), using a `key` is the more likely scenario and use case.
 
+##### keyOnly
+
+Defaults to `true`, and is only relevant when a `key` is provided. By default the `remove` and `unchanged` results only provide the id (the field specificed by the `key` option), not the entire object. Setting `keyOnly` to `false` will ensure the entire object is returned rather than just the id.
+
 ##### comparator
 
 A `function` to replace the default `comparator` function. The `comparator` function will be executed with two arguments `(objOne, objTwo)`. It should return `true` if the object is the same, otherwise it should return `false`. The default comparator is:

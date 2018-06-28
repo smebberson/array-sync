@@ -401,6 +401,54 @@ describe('arraySync', function () {
 
             });
 
+            it('and return complete objects', function (done) {
+
+                arraySync([
+                    { type: 'fruit', _id: 'one', label: 'Apple' },
+                    { type: 'fruit', _id: 'two', label: 'Orange' },
+                    { type: 'fruit', _id: 'three', label: 'Grape' },
+                    { type: 'fruit', _id: 'four', label: 'Cucumber' },
+                    { type: 'fruit', _id: 'five', label: 'Plum' }
+                ], [
+                    { type: 'fruit', _id: 'one', label: 'Apple' },
+                    { type: 'fruit', _id: 'two', label: 'Orange' },
+                    { type: 'fruit', _id: 'three', label: 'Grape' },
+                    { type: 'vegetable', _id: 'four', label: 'Cucumber' },
+                    { type: 'vegetable', _id: 'six', label: 'Pumpkin' }
+                ], {
+                    key: '_id',
+                    keyOnly: false,
+                }, function (err, result) {
+
+                    expect(err).to.not.exist;
+
+                    expect(result).to.exist;
+
+                    expect(result).to.have.property('unchanged');
+                    expect(result.unchanged).to.have.length(3);
+                    expect(result.unchanged[0]).to.eql({ type: 'fruit', _id: 'one', label: 'Apple' });
+                    expect(result.unchanged[1]).to.eql({ type: 'fruit', _id: 'two', label: 'Orange' });
+                    expect(result.unchanged[2]).to.eql({ type: 'fruit', _id: 'three', label: 'Grape' });
+
+                    expect(result).to.have.property('create');
+                    expect(result.create).to.have.length(1);
+                    expect(result.create[0]).to.eql({ type: 'vegetable', _id: 'six', label: 'Pumpkin' });
+
+                    expect(result).to.have.property('remove');
+                    expect(result.remove).to.have.length(1);
+                    expect(result.remove[0]).to.eql({ type: 'fruit', _id: 'five', label: 'Plum' });
+
+                    expect(result).to.have.property('changed');
+                    expect(result.changed).to.have.length(1);
+                    expect(result.changed[0]).to.eql({ type: 'vegetable', _id: 'four', label: 'Cucumber' });
+
+
+                    return done(err);
+
+                });
+
+            });
+
         });
 
         describe('use a key, and a custom comparator', function () {
