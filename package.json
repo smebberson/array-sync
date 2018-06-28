@@ -1,6 +1,6 @@
 {
   "name": "array-sync",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Data synchronisation module for Node.js",
   "main": "index.js",
   "engines": {
@@ -8,8 +8,8 @@
   },
   "scripts": {
     "test": "./node_modules/.bin/mocha",
-    "coverage": "./vagrant/scripts/test-coverage",
-    "travis": "./vagrant/scripts/test-travis"
+    "coverage": "./test-coverage.sh",
+    "travis": "./test-travis.sh"
   },
   "repository": {
     "type": "git",

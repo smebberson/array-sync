@@ -194,6 +194,10 @@ module.exports = function arraySync (source, update, opts, callback) {
         throw Error('You must provide a key when passing in a custom comparator function.')
     }
 
+    if (opts.key && typeof opts.keyOnly === 'undefined') {
+        opts.keyOnly = true;
+    }
+
     // Return a promise (which will execute the callback if provided).
     return new Promise(function (resolve, reject) {
 
@@ -219,7 +223,7 @@ module.exports = function arraySync (source, update, opts, callback) {
         r.unchanged = findUnchangedValues(source, r.remove.concat(r.create, r.changed || []), opts);
 
         // If we have a `key`, transform the results to contain only the key Object.
-        if (opts.key) {
+        if (opts.key && opts.keyOnly) {
             r.remove = mapToKey(r.remove, opts.key);
             r.unchanged = mapToKey(r.unchanged, opts.key);
         }
