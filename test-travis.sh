@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-WP="/vagrant"
+WP=$(pwd)
 
 if test ! -z "$TRAVIS_BUILD_DIR"; then
     WP="$TRAVIS_BUILD_DIR"

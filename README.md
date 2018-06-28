@@ -151,7 +151,7 @@ The default comparator provides support for this scenario, and so will any custo
 
 ## Contributing
 
-Contributors are welcomed. array-sync comes complete with an isolated development environment. You can [read more about contributing to array-sync here](CONTRIBUTING.md).
+Contributors are welcomed. You can [read more about contributing to array-sync here](CONTRIBUTING.md).
 
 ## License
 
