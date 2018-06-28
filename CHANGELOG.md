@@ -3,6 +3,10 @@
 
 All notable changes to array-sync will be documented here. This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.2] - 2018-06-28
+
+- Installed Greenkeeper and updated all dependencies to the latest version.
+
 ## [2.0.1] - 2018-06-28
 
 - You can now supply `keyOnly: false` in conjunction with the `key` option to have the entire object returned, rather than just the key.
