@@ -1,8 +1,15 @@
 language: node_js
 node_js:
-    - "4.2"
-    - "stable"
+    - "node"
+    - "lts/*"
+before_install:
+    - '[[ $(node -v) =~ ^v9.*$ ]] || npm install -g npm@latest' # skipped when using node 9
+    - "npm install -g greenkeeper-lockfile"
+install: npm install
+before_script:
+    - "greenkeeper-lockfile-update"
 script:
     - "npm run travis"
 after_script:
     - "npm install codecov && ./node_modules/.bin/codecov"
+    - "greenkeeper-lockfile-upload"
