@@ -32,7 +32,7 @@
     "chai-as-promised": "7.1.1",
     "clone": "2.1.1",
     "istanbul": "0.4.5",
-    "mocha": "5.2.0"
+    "mocha": "6.0.0"
   },
   "dependencies": {
     "bluebird": "3.5.2"
