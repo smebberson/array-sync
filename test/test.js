@@ -82,7 +82,7 @@ describe('arraySync', function () {
         })
             .then(
                 () => Promise.reject(new Error('Exepcted arraySync to reject.')),
-                (err) => expect(err).to.be.an.instanceof(Error),
+                (err) => expect(err).to.be.an.instanceof(Error)
             );
 
     });
