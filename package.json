@@ -28,10 +28,10 @@
   },
   "homepage": "https://github.com/smebberson/array-sync#readme",
   "devDependencies": {
-    "chai": "4.1.2",
+    "chai": "4.2.0",
     "chai-as-promised": "7.1.1",
     "clone": "2.1.2",
-    "istanbul": "0.4.5",
-    "mocha": "6.1.2"
+    "mocha": "6.1.2",
+    "nyc": "13.3.0"
   }
 }

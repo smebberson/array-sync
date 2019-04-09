@@ -3,6 +3,10 @@
 
 All notable changes to array-sync will be documented here. This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased - 2019-04-09
+
+- Updated all dependencies.
+
 ## 3.0.0 - 2019-04-09
 
 - Removed Bluebird.
