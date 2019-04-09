@@ -62,15 +62,16 @@ arraySync([
     { type: 'node', id: 1, label: 'one' },
     { type: 'node', id: 2, label: 'Two' },
     { type: 'node', id: 3, label: 'three' }
-]).then(function (result) {
+])
+    .then(function (result) {
 
-    // result = {
-    //     unchanged: [{ type: 'node', id: 1, label: 'one' }, { type: 'node', id: 3, label: 'three' }],
-    //     create: [{ type: 'node', id: 2, label: 'Two' }],
-    //     remove: [{ type: 'node', id: 2, label: 'two' }]
-    // }
+        // result = {
+        //     unchanged: [{ type: 'node', id: 1, label: 'one' }, { type: 'node', id: 3, label: 'three' }],
+        //     create: [{ type: 'node', id: 2, label: 'Two' }],
+        //     remove: [{ type: 'node', id: 2, label: 'two' }]
+        // }
 
-});
+    });
 ```
 
 In this mode it is unable to determine what has changed from what is new. By providing a `key`, array-sync is able to determine if something has changed:
@@ -84,16 +85,17 @@ arraySync([
     { type: 'node', id: 1, label: 'one' },
     { type: 'node', id: 2, label: 'Two' },
     { type: 'node', id: 3, label: 'three' }
-], { key: 'id' }).then(function (result) {
+], { key: 'id' })
+    .then(function (result) {
 
-    // result = {
-    //     unchanged: [1, 3],
-    //     changed: [{ type: 'node', id: 2, label: 'Two' }]
-    //     create: [],
-    //     remove: []
-    // }
+        // result = {
+        //     unchanged: [1, 3],
+        //     changed: [{ type: 'node', id: 2, label: 'Two' }]
+        //     create: [],
+        //     remove: []
+        // }
 
-});
+    });
 ```
 
 If a `key` is provided array-sync adds another key to the object it returns (`changed`). Also only the value of the `key` is returned in `unchanged` and `remove`, whereas the whole object is returned in `changed` and `create`. For database stored information (with an `id`), using a `key` is the more likely scenario and use case.
