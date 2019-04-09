@@ -3,7 +3,7 @@
 
 All notable changes to array-sync will be documented here. This project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased - 2019-04-09
+## 3.0.1 - 2019-04-09
 
 - Updated all dependencies.
 
