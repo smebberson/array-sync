@@ -1,6 +1,7 @@
 # array-sync
 
 [![npm](https://img.shields.io/npm/v/array-sync.svg)](https://www.npmjs.com/package/array-sync)
+![Snyk Vulnerabilities for npm package](https://img.shields.io/snyk/vulnerabilities/npm/array-sync.svg)
 [![Build Status](https://travis-ci.org/smebberson/array-sync.svg?branch=master)](https://travis-ci.org/smebberson/array-sync)
 [![Coverage Status](https://codecov.io/github/smebberson/array-sync/coverage.svg?branch=master)](https://codecov.io/github/smebberson/array-sync?branch=master) [![Greenkeeper badge](https://badges.greenkeeper.io/smebberson/array-sync.svg)](https://greenkeeper.io/)
 
