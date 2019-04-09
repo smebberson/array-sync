@@ -7,7 +7,7 @@ const assert = require('assert');
  * @param  {Any} objTwo Compare the first object to this object.
  * @return {Boolean}    Return `true` if the object is the same, otherwise return `false`.
  */
-function comparator (objOne, objTwo) {
+const comparator = (objOne, objTwo) => {
 
     // Compare an object to an object.
     if (typeof objOne === 'object') {
@@ -34,9 +34,7 @@ function comparator (objOne, objTwo) {
  * @param  {String} key A key that exists on each object within the array.
  * @return {Array}      An array of values pertaining to the value of the key on each object.
  */
-function mapToKey (a, key) {
-    return a.map(val => val[key]);
-};
+const mapToKey = (a, key) => a.map(val => val[key]);
 
 /**
  * Find anything that was in the `source` array but does not exist in the `update` array.
@@ -46,22 +44,18 @@ function mapToKey (a, key) {
  * @return {Array}        An array of items that are in the `source` array but don't exist
  *                        in the `update` array.
  */
-function findMissingValues (source, update, opts) {
+const findMissingValues = (source, update, opts) => source.filter(function (sourceValue) {
 
-    return source.filter(function (sourceValue) {
+    return update.find(function (element, index, array) {
 
-        return update.find(function (element, index, array) {
+        // If we have a key, we only want to compare the value of the keys.
+        return opts.key ?
+            (opts.comparator || comparator)(sourceValue[opts.key], element[opts.key]) === true :
+            (opts.comparator || comparator)(sourceValue, element) === true;
 
-            // If we have a key, we only want to compare the value of the keys.
-            return opts.key ?
-                (opts.comparator || comparator)(sourceValue[opts.key], element[opts.key]) === true :
-                (opts.comparator || comparator)(sourceValue, element) === true;
+    }) === undefined;
 
-        }) === undefined;
-
-    });
-
-}
+});
 
 /**
  * Find anything that is new in the `update` array.
@@ -71,22 +65,18 @@ function findMissingValues (source, update, opts) {
  * @return {Array}        An array of items that are in the `update` array but don't exist
  *                        in the `source` array.
  */
-function findNewValues (source, update, opts) {
+const findNewValues = (source, update, opts) => update.filter(function (updateValue) {
 
-    return update.filter(function (updateValue) {
+    return source.find(function (element, index, array) {
 
-        return source.find(function (element, index, array) {
+        // If we have a key, we don't want to create.
+        return opts.key ?
+            (opts.comparator || comparator)(updateValue[opts.key], element[opts.key]) === true :
+            (opts.comparator || comparator)(updateValue, element) === true;
 
-            // If we have a key, we don't want to create.
-            return opts.key ?
-                (opts.comparator || comparator)(updateValue[opts.key], element[opts.key]) === true :
-                (opts.comparator || comparator)(updateValue, element) === true;
+    }) === undefined;
 
-        }) === undefined;
-
-    });
-
-}
+});
 
 /**
  * Find anything that is exactly the same between the `source` array and the `update` array.
@@ -96,24 +86,20 @@ function findNewValues (source, update, opts) {
  * @return {Array}                         An array of items that appear in the `update` array and exactly match
  *                                         their counterpart in the `source` array.
  */
-function findUnchangedValues (source, removeCreateAndChanged, opts) {
+const findUnchangedValues = (source, removeCreateAndChanged, opts) => source.filter(function (sourceValue) {
 
-    return source.filter(function (sourceValue) {
+    return removeCreateAndChanged.find(function (element, index, array) {
 
-        return removeCreateAndChanged.find(function (element, index, array) {
+        // If we have a key, we only want to compare the actual key is the same.
+        if (opts.key) {
+            return (opts.comparator || comparator)(sourceValue[opts.key], element[opts.key]) === true;
+        }
 
-            // If we have a key, we only want to compare the actual key is the same.
-            if (opts.key) {
-                return (opts.comparator || comparator)(sourceValue[opts.key], element[opts.key]) === true;
-            }
+        return (opts.comparator || comparator)(sourceValue, element) === true;
 
-            return (opts.comparator || comparator)(sourceValue, element) === true;
+    }) === undefined;
 
-        }) === undefined;
-
-    });
-
-}
+});
 
 /**
  * Find anything that has changed between the `source` array and the `update` array.
@@ -123,29 +109,25 @@ function findUnchangedValues (source, removeCreateAndChanged, opts) {
  * @return {Array}        An array of items that appear in the `update` array and do not match
  *                        their counterpart in the `source` array.
  */
-function findChangedValues (source, update, opts) {
+const findChangedValues = (source, update, opts) => source.filter(function (sourceValue) {
 
-    return source.filter(function (sourceValue) {
+    return update.find(function (element, index, array) {
 
-        return update.find(function (element, index, array) {
+        // If we have a key, we only want to compare when the key is the same.
+        return (opts.comparator || comparator)(sourceValue[opts.key], element[opts.key]) === true && (opts.comparator || comparator)(sourceValue, element, opts.key) !== true;
 
-            // If we have a key, we only want to compare when the key is the same.
-            return (opts.comparator || comparator)(sourceValue[opts.key], element[opts.key]) === true && (opts.comparator || comparator)(sourceValue, element, opts.key) !== true;
+    }) !== undefined;
 
-        }) !== undefined;
+// We always have a key if this function is executing, make sure we pass back the changed values, not those from the source.
+}).map(function (sourceValue) {
 
-    // We always have a key if this function is executing, make sure we pass back the changed values, not those from the source.
-    }).map(function (sourceValue) {
+    return update.find(function (element, index, array) {
 
-        return update.find(function (element, index, array) {
-
-            return (opts.comparator || comparator)(sourceValue[opts.key], element[opts.key]) === true;
-
-        });
+        return (opts.comparator || comparator)(sourceValue[opts.key], element[opts.key]) === true;
 
     });
 
-}
+})
 
 /**
  * Data synchronisation module for Node.js.
