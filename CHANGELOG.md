@@ -3,6 +3,12 @@
 
 All notable changes to array-sync will be documented here. This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased - 2019-04-09
+
+- Removed Bluebird.
+- Removed callback support, only promises are supported now.
+- Modernised code (although, I didn't go overboard).
+
 ## [2.0.2] - 2018-06-28
 
 - Installed Greenkeeper and updated all dependencies to the latest version.

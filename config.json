@@ -1,9 +1,0 @@
-{
-    "hostname": "arraysync.local",
-    "ip": "192.168.45.12",
-    "memory": 1024,
-    "cpus": 1,
-    "env": {
-        "NODE_ENV": "development"
-    }
-}

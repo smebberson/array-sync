@@ -1,6 +1,5 @@
 
-var Promise = require('bluebird'),
-    assert = require('assert');
+const assert = require('assert');
 
 /**
  * The default comparator function. Simple strict equality all the way.
@@ -49,7 +48,7 @@ function mapToKey (a, key) {
  */
 function findMissingValues (source, update, opts) {
 
-    var r = source.filter(function (sourceValue) {
+    return source.filter(function (sourceValue) {
 
         return update.find(function (element, index, array) {
 
@@ -61,8 +60,6 @@ function findMissingValues (source, update, opts) {
         }) === undefined;
 
     });
-
-    return r;
 
 }
 
@@ -76,7 +73,7 @@ function findMissingValues (source, update, opts) {
  */
 function findNewValues (source, update, opts) {
 
-    var r = update.filter(function (updateValue) {
+    return update.filter(function (updateValue) {
 
         return source.find(function (element, index, array) {
 
@@ -88,8 +85,6 @@ function findNewValues (source, update, opts) {
         }) === undefined;
 
     });
-
-    return r;
 
 }
 
@@ -103,7 +98,7 @@ function findNewValues (source, update, opts) {
  */
 function findUnchangedValues (source, removeCreateAndChanged, opts) {
 
-    var r = source.filter(function (sourceValue) {
+    return source.filter(function (sourceValue) {
 
         return removeCreateAndChanged.find(function (element, index, array) {
 
@@ -118,8 +113,6 @@ function findUnchangedValues (source, removeCreateAndChanged, opts) {
 
     });
 
-    return r;
-
 }
 
 /**
@@ -132,7 +125,7 @@ function findUnchangedValues (source, removeCreateAndChanged, opts) {
  */
 function findChangedValues (source, update, opts) {
 
-    var r = source.filter(function (sourceValue) {
+    return source.filter(function (sourceValue) {
 
         return update.find(function (element, index, array) {
 
@@ -152,9 +145,6 @@ function findChangedValues (source, update, opts) {
 
     });
 
-
-    return r;
-
 }
 
 /**
@@ -162,12 +152,11 @@ function findChangedValues (source, update, opts) {
  *
  * @param  {Array} source       Source array.
  * @param  {Array} update       An updated version of the source array.
- * @param  {Function} callback  An optional callback to execute with the results.
  * @param  {Object} opts        An object of options.
- * @return {Promise}            A promise that will be resolved or rejected with the result (unless callback was provided).
+ * @return {Promise}            A promise that will be resolved or rejected with the result.
  */
 
-module.exports = function arraySync (source, update, opts, callback) {
+module.exports = function arraySync (source, update, opts = {}) {
 
     if (!source) {
         throw Error('You must provide a source Array for arraySync to inspect.');
@@ -177,19 +166,6 @@ module.exports = function arraySync (source, update, opts, callback) {
         throw Error('You must provide an update Array for arraySync to inspect.');
     }
 
-    // Support four signatures:
-    //  1. (source, update, callback)
-    //  2. (source, update, opts, callback)
-    //  3, (source, update, opts)
-    //  4. (source, update)
-    if (typeof opts === 'function') {
-        callback = opts;
-        opts = {};
-    }
-
-    // Default `opts` to an Object.
-    opts = opts || {};
-
     if (opts.comparator && !opts.key) {
         throw Error('You must provide a key when passing in a custom comparator function.')
     }
@@ -198,11 +174,10 @@ module.exports = function arraySync (source, update, opts, callback) {
         opts.keyOnly = true;
     }
 
-    // Return a promise (which will execute the callback if provided).
     return new Promise(function (resolve, reject) {
 
         // Default return object.
-        var r = {
+        const r = {
             remove: [],
             unchanged: [],
             create: []
@@ -231,6 +206,6 @@ module.exports = function arraySync (source, update, opts, callback) {
         // Resolve the result.
         return resolve(r);
 
-    }).asCallback(callback);
+    });
 
 }

@@ -21,7 +21,7 @@ var arraySync = require('array-sync');
 
 ```
 
-### arraySync(source, updated, [options, callback])
+### arraySync(source, updated, [options])
 
 Takes a source array, and compares it against an updated version of the source array to determine what needs to be removed, created and what hasn't changed. It returns an object:
 
@@ -35,7 +35,7 @@ Takes a source array, and compares it against an updated version of the source a
 
 By default array-sync will compare using whole-object strict equality (i.e. `assert.deepStrictEqual`) on objects or strict equality on other data types (i.e. `===`). You can customize this by providing a key and a comparator function in the `options` object.
 
-array-sync will return a promise unless a `callback` function has been provided.
+array-sync will always return a promise.
 
 #### source
 
@@ -44,20 +44,6 @@ The `source` array. It must be provided. array-sync will `throw` if it isn't pro
 #### updated
 
 An updated version of the `source` array. It also must be provided (however, it can be empty). array-sync will `throw` if it isn't provided.
-
-#### callback
-
-An optional `callback` function. If provided will be executed with the standard Node.js callback signature `(err, result)`. If not provided a promise is returned.
-
-```
-arraySync(source, updated).then(
-    function successHandler (result) {
-        // { remove: [], unchanged: [], create: [] }
-    },
-    function failHandler (err) {
-    }
-);
-```
 
 #### options
 
