@@ -7,8 +7,7 @@
     "node": ">= 6.0"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha",
-    "coverage": "./test-coverage.sh",
+    "test": "jest --coverage",
     "travis": "./test-travis.sh"
   },
   "repository": {
@@ -28,10 +27,8 @@
   },
   "homepage": "https://github.com/smebberson/array-sync#readme",
   "devDependencies": {
-    "chai": "4.2.0",
-    "chai-as-promised": "7.1.1",
     "clone": "2.1.2",
-    "mocha": "6.1.4",
-    "nyc": "14.1.1"
+    "codecov": "3.5.0",
+    "jest": "24.8.0"
   }
 }

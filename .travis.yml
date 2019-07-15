@@ -11,7 +11,7 @@ install: npm install
 before_script:
     - "greenkeeper-lockfile-update"
 script:
-    - "npm run travis"
+    - "npm run test"
 after_script:
-    - "npm install codecov && ./node_modules/.bin/codecov"
+    - "./node_modules/.bin/codecov --token=8068a1a5-0654-4095-8769-68a374efc7de"
     - "greenkeeper-lockfile-upload"
