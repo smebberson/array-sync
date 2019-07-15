@@ -1,17 +1,13 @@
 language: node_js
 node_js:
-    - "6"
-    - "8"
-    - "node"
-    - "lts/*"
+    - '6'
+    - '8'
+    - 'node'
+    - 'lts/*'
 before_install:
     - '[[ $(node -v) =~ ^v9.*$ ]] || npm install -g npm@latest' # skipped when using node 9
-    - "npm install -g greenkeeper-lockfile"
 install: npm install
-before_script:
-    - "greenkeeper-lockfile-update"
 script:
-    - "npm run test"
+    - 'npm run test'
 after_script:
-    - "./node_modules/.bin/codecov --token=8068a1a5-0654-4095-8769-68a374efc7de"
-    - "greenkeeper-lockfile-upload"
+    - './node_modules/.bin/codecov --token=8068a1a5-0654-4095-8769-68a374efc7de'

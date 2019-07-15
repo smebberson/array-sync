@@ -7,6 +7,7 @@ All notable changes to array-sync will be documented here. This project adheres 
 -   Removed the promise-based API.
 -   Moved to Jest.
 -   Added Prettier.
+-   Removed Greenkeeper.
 
 ## 3.0.1 - 2019-04-09
 
