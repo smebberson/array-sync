@@ -38,37 +38,31 @@ describe('arraySync', function () {
 
     it('can accept an opts Object', function () {
 
-        return arraySync([], [], {})
-            .then(function (results) {
+        const results = arraySync([], [], {});
 
-                expect(results).to.exist;
-                expect(results).to.have.property('remove');
-                expect(results).to.have.property('unchanged');
-                expect(results).to.have.property('create');
-                expect(results).to.not.have.property('changed');
-
-            });
+        expect(results).to.exist;
+        expect(results).to.have.property('remove');
+        expect(results).to.have.property('unchanged');
+        expect(results).to.have.property('create');
+        expect(results).to.not.have.property('changed');
 
     });
 
     it('will resolve to an object with the keys remove, unchanged, create', function () {
 
-        return arraySync([], [])
-            .then(function (results) {
+        const results = arraySync([], []);
 
-                expect(results).to.exist;
-                expect(results).to.have.property('remove');
-                expect(results).to.have.property('unchanged');
-                expect(results).to.have.property('create');
-                expect(results).to.not.have.property('changed');
-
-            });
+        expect(results).to.exist;
+        expect(results).to.have.property('remove');
+        expect(results).to.have.property('unchanged');
+        expect(results).to.have.property('create');
+        expect(results).to.not.have.property('changed');
 
     });
 
-    it('will reject upon error', function () {
+    it('will throw upon error', function () {
 
-        return arraySync([
+        const fn = () => arraySync([
             { type: 'fruit', _id: 1, label: 'Apple', stats: { views: 1, purchases: 1 } },
             { type: 'fruit', _id: 2, label: 'Cucumber', stats: { views: 10, purchases: 2 } }
         ], [
@@ -79,11 +73,9 @@ describe('arraySync', function () {
             comparator: function comparator (objOne, objTwo) {
                 throw new Error('Test error');
             }
-        })
-            .then(
-                () => Promise.reject(new Error('Exepcted arraySync to reject.')),
-                (err) => expect(err).to.be.an.instanceof(Error)
-            );
+        });
+
+        expect(fn).to.throw();
 
     });
 
@@ -95,42 +87,38 @@ describe('arraySync', function () {
 
                 it('when working with strings', function () {
 
-                    return arraySync(['one', 'two', 'three', 'four'], ['one', 'three', 'four']).then(function (result) {
+                    const result = arraySync(['one', 'two', 'three', 'four'], ['one', 'three', 'four']);
 
-                        expect(result).to.exist;
-                        expect(result).to.have.property('unchanged');
-                        expect(result).to.have.property('create');
-                        expect(result).to.not.have.property('changed');
+                    expect(result).to.exist;
+                    expect(result).to.have.property('unchanged');
+                    expect(result).to.have.property('create');
+                    expect(result).to.not.have.property('changed');
 
-                        expect(result).to.have.property('remove');
-                        expect(result.remove).to.have.length(1);
-                        expect(result.remove[0]).to.equal('two');
-
-                    });
+                    expect(result).to.have.property('remove');
+                    expect(result.remove).to.have.length(1);
+                    expect(result.remove[0]).to.equal('two');
 
                 });
 
                 it('when working with objects', function () {
 
-                    return arraySync([
+                    const result = arraySync([
                         { type: 'node', label: 'one' },
                         { type: 'node', label: 'two' },
                         { type: 'node', label: 'three' }
                     ], [
                         { type: 'node', label: 'one' },
                         { type: 'node', label: 'three' }
-                    ]).then(function (result) {
+                    ]);
 
-                        expect(result).to.exist;
-                        expect(result).to.have.property('unchanged');
-                        expect(result).to.have.property('create');
-                        expect(result).to.not.have.property('changed');
+                    expect(result).to.exist;
+                    expect(result).to.have.property('unchanged');
+                    expect(result).to.have.property('create');
+                    expect(result).to.not.have.property('changed');
 
-                        expect(result).to.have.property('remove');
-                        expect(result.remove).to.have.length(1);
-                        expect(result.remove[0]).to.eql({ type: 'node', label: 'two' });
-
-                    });
+                    expect(result).to.have.property('remove');
+                    expect(result.remove).to.have.length(1);
+                    expect(result.remove[0]).to.eql({ type: 'node', label: 'two' });
 
                 });
 
@@ -140,42 +128,38 @@ describe('arraySync', function () {
 
                 it('when working with strings', function () {
 
-                    return arraySync(['one', 'two', 'three', 'four'], ['one', 'two', 'three', 'four', 'five']).then(function (result) {
+                    const result = arraySync(['one', 'two', 'three', 'four'], ['one', 'two', 'three', 'four', 'five']);
 
-                        expect(result).to.exist;
-                        expect(result).to.have.property('unchanged');
-                        expect(result).to.have.property('remove');
-                        expect(result).to.not.have.property('changed');
+                    expect(result).to.exist;
+                    expect(result).to.have.property('unchanged');
+                    expect(result).to.have.property('remove');
+                    expect(result).to.not.have.property('changed');
 
-                        expect(result).to.have.property('create');
-                        expect(result.create).to.have.length(1);
-                        expect(result.create[0]).to.equal('five');
-
-                    });
+                    expect(result).to.have.property('create');
+                    expect(result.create).to.have.length(1);
+                    expect(result.create[0]).to.equal('five');
 
                 });
 
                 it('when working with objects', function () {
 
-                    return arraySync([
+                    const result = arraySync([
                         { type: 'node', label: 'one' },
                         { type: 'node', label: 'two' }
                     ], [
                         { type: 'node', label: 'one' },
                         { type: 'node', label: 'two' },
                         { type: 'node', label: 'three' }
-                    ]).then(function (result) {
+                    ]);
 
-                        expect(result).to.exist;
-                        expect(result).to.have.property('unchanged');
-                        expect(result).to.have.property('remove');
-                        expect(result).to.not.have.property('changed');
+                    expect(result).to.exist;
+                    expect(result).to.have.property('unchanged');
+                    expect(result).to.have.property('remove');
+                    expect(result).to.not.have.property('changed');
 
-                        expect(result).to.have.property('create');
-                        expect(result.create).to.have.length(1);
-                        expect(result.create[0]).to.eql({ type: 'node', label: 'three' });
-
-                    });
+                    expect(result).to.have.property('create');
+                    expect(result.create).to.have.length(1);
+                    expect(result.create[0]).to.eql({ type: 'node', label: 'three' });
 
                 });
 
@@ -185,46 +169,42 @@ describe('arraySync', function () {
 
                 it('when working with strings', function () {
 
-                    return arraySync(['one', 'two', 'three', 'four'], ['one', 'two', 'three', 'four', 'five']).then(function (result) {
+                    const result = arraySync(['one', 'two', 'three', 'four'], ['one', 'two', 'three', 'four', 'five']);
 
-                        expect(result).to.exist;
-                        expect(result).to.have.property('remove');
-                        expect(result).to.have.property('create');
-                        expect(result).to.not.have.property('changed');
+                    expect(result).to.exist;
+                    expect(result).to.have.property('remove');
+                    expect(result).to.have.property('create');
+                    expect(result).to.not.have.property('changed');
 
-                        expect(result).to.have.property('unchanged');
-                        expect(result.unchanged).to.have.length(4);
-                        expect(result.unchanged[0]).to.equal('one');
-                        expect(result.unchanged[1]).to.equal('two');
-                        expect(result.unchanged[2]).to.equal('three');
-                        expect(result.unchanged[3]).to.equal('four');
-
-                    });
+                    expect(result).to.have.property('unchanged');
+                    expect(result.unchanged).to.have.length(4);
+                    expect(result.unchanged[0]).to.equal('one');
+                    expect(result.unchanged[1]).to.equal('two');
+                    expect(result.unchanged[2]).to.equal('three');
+                    expect(result.unchanged[3]).to.equal('four');
 
                 });
 
                 it('when working with objects', function () {
 
-                    return arraySync([
+                    const result = arraySync([
                         { type: 'node', label: 'one' },
                         { type: 'node', label: 'two' }
                     ], [
                         { type: 'node', label: 'one' },
                         { type: 'node', label: 'two' },
                         { type: 'node', label: 'three' }
-                    ]).then(function (result) {
+                    ]);
 
-                        expect(result).to.exist;
-                        expect(result).to.have.property('remove');
-                        expect(result).to.have.property('create');
-                        expect(result).to.not.have.property('changed');
+                    expect(result).to.exist;
+                    expect(result).to.have.property('remove');
+                    expect(result).to.have.property('create');
+                    expect(result).to.not.have.property('changed');
 
-                        expect(result).to.have.property('unchanged');
-                        expect(result.unchanged).to.have.length(2);
-                        expect(result.unchanged[0]).to.eql({ type: 'node', label: 'one' });
-                        expect(result.unchanged[1]).to.eql({ type: 'node', label: 'two' });
-
-                    });
+                    expect(result).to.have.property('unchanged');
+                    expect(result.unchanged).to.have.length(2);
+                    expect(result.unchanged[0]).to.eql({ type: 'node', label: 'one' });
+                    expect(result.unchanged[1]).to.eql({ type: 'node', label: 'two' });
 
                 });
 
@@ -234,32 +214,30 @@ describe('arraySync', function () {
 
                 it('when working with strings', function () {
 
-                    return arraySync(['one', 'two', 'three', 'four'], ['one', 'three', 'four', 'five']).then(function (result) {
+                    const result = arraySync(['one', 'two', 'three', 'four'], ['one', 'three', 'four', 'five']);
 
-                        expect(result).to.exist;
-                        expect(result).to.not.have.property('changed');
+                    expect(result).to.exist;
+                    expect(result).to.not.have.property('changed');
 
-                        expect(result).to.have.property('remove');
-                        expect(result.remove).to.have.length(1);
-                        expect(result.remove[0]).to.equal('two');
+                    expect(result).to.have.property('remove');
+                    expect(result.remove).to.have.length(1);
+                    expect(result.remove[0]).to.equal('two');
 
-                        expect(result).to.have.property('create');
-                        expect(result.create).to.have.length(1);
-                        expect(result.create[0]).to.equal('five');
+                    expect(result).to.have.property('create');
+                    expect(result.create).to.have.length(1);
+                    expect(result.create[0]).to.equal('five');
 
-                        expect(result).to.have.property('unchanged');
-                        expect(result.unchanged).to.have.length(3);
-                        expect(result.unchanged[0]).to.equal('one');
-                        expect(result.unchanged[1]).to.equal('three');
-                        expect(result.unchanged[2]).to.equal('four');
-
-                    });
+                    expect(result).to.have.property('unchanged');
+                    expect(result.unchanged).to.have.length(3);
+                    expect(result.unchanged[0]).to.equal('one');
+                    expect(result.unchanged[1]).to.equal('three');
+                    expect(result.unchanged[2]).to.equal('four');
 
                 });
 
                 it('when working with objects', function () {
 
-                    return arraySync([
+                    const result = arraySync([
                         { type: 'node', label: 'one' },
                         { type: 'node', label: 'two' },
                         { type: 'node', label: 'three' },
@@ -269,26 +247,24 @@ describe('arraySync', function () {
                         { type: 'node', label: 'two' },
                         { type: 'node', label: 'three' },
                         { type: 'node', label: 'five' }
-                    ]).then(function (result) {
+                    ]);
 
-                        expect(result).to.exist;
-                        expect(result).to.not.have.property('changed');
+                    expect(result).to.exist;
+                    expect(result).to.not.have.property('changed');
 
-                        expect(result).to.have.property('remove');
-                        expect(result.remove).to.have.length(1);
-                        expect(result.remove[0]).to.eql({ type: 'node', label: 'four' });
+                    expect(result).to.have.property('remove');
+                    expect(result.remove).to.have.length(1);
+                    expect(result.remove[0]).to.eql({ type: 'node', label: 'four' });
 
-                        expect(result).to.have.property('create');
-                        expect(result.create).to.have.length(1);
-                        expect(result.create[0]).to.eql({ type: 'node', label: 'five' });
+                    expect(result).to.have.property('create');
+                    expect(result.create).to.have.length(1);
+                    expect(result.create[0]).to.eql({ type: 'node', label: 'five' });
 
-                        expect(result).to.have.property('unchanged');
-                        expect(result.unchanged).to.have.length(3);
-                        expect(result.unchanged[0]).to.eql({ type: 'node', label: 'one' });
-                        expect(result.unchanged[1]).to.eql({ type: 'node', label: 'two' });
-                        expect(result.unchanged[2]).to.eql({ type: 'node', label: 'three' });
-
-                    });
+                    expect(result).to.have.property('unchanged');
+                    expect(result.unchanged).to.have.length(3);
+                    expect(result.unchanged[0]).to.eql({ type: 'node', label: 'one' });
+                    expect(result.unchanged[1]).to.eql({ type: 'node', label: 'two' });
+                    expect(result.unchanged[2]).to.eql({ type: 'node', label: 'three' });
 
                 });
 
@@ -300,7 +276,7 @@ describe('arraySync', function () {
 
             it('and determine which items are unchanged, to be removed and to be created', function () {
 
-                return arraySync([
+                const result = arraySync([
                     { type: 'fruit', _id: 'one', label: 'Apple' },
                     { type: 'fruit', _id: 'two', label: 'Orange' },
                     { type: 'fruit', _id: 'three', label: 'Grape' },
@@ -314,36 +290,33 @@ describe('arraySync', function () {
                     { type: 'vegetable', _id: 'six', label: 'Pumpkin' }
                 ], {
                     key: '_id'
-                })
-                    .then(function (result) {
-
-                        expect(result).to.exist;
-
-                        expect(result).to.have.property('unchanged');
-                        expect(result.unchanged).to.have.length(3);
-                        expect(result.unchanged[0]).to.eql('one');
-                        expect(result.unchanged[1]).to.eql('two');
-                        expect(result.unchanged[2]).to.eql('three');
-
-                        expect(result).to.have.property('create');
-                        expect(result.create).to.have.length(1);
-                        expect(result.create[0]).to.eql({ type: 'vegetable', _id: 'six', label: 'Pumpkin' });
-
-                        expect(result).to.have.property('remove');
-                        expect(result.remove).to.have.length(1);
-                        expect(result.remove[0]).to.eql('five');
-
-                        expect(result).to.have.property('changed');
-                        expect(result.changed).to.have.length(1);
-                        expect(result.changed[0]).to.eql({ type: 'vegetable', _id: 'four', label: 'Cucumber' });
-
-                    });
-
                 });
+
+                expect(result).to.exist;
+
+                expect(result).to.have.property('unchanged');
+                expect(result.unchanged).to.have.length(3);
+                expect(result.unchanged[0]).to.eql('one');
+                expect(result.unchanged[1]).to.eql('two');
+                expect(result.unchanged[2]).to.eql('three');
+
+                expect(result).to.have.property('create');
+                expect(result.create).to.have.length(1);
+                expect(result.create[0]).to.eql({ type: 'vegetable', _id: 'six', label: 'Pumpkin' });
+
+                expect(result).to.have.property('remove');
+                expect(result.remove).to.have.length(1);
+                expect(result.remove[0]).to.eql('five');
+
+                expect(result).to.have.property('changed');
+                expect(result.changed).to.have.length(1);
+                expect(result.changed[0]).to.eql({ type: 'vegetable', _id: 'four', label: 'Cucumber' });
+
+            });
 
             it('and return complete objects', function () {
 
-                return arraySync([
+                const result = arraySync([
                     { type: 'fruit', _id: 'one', label: 'Apple' },
                     { type: 'fruit', _id: 'two', label: 'Orange' },
                     { type: 'fruit', _id: 'three', label: 'Grape' },
@@ -358,30 +331,27 @@ describe('arraySync', function () {
                 ], {
                     key: '_id',
                     keyOnly: false,
-                })
-                    .then(function (result) {
+                });
 
-                        expect(result).to.exist;
+                expect(result).to.exist;
 
-                        expect(result).to.have.property('unchanged');
-                        expect(result.unchanged).to.have.length(3);
-                        expect(result.unchanged[0]).to.eql({ type: 'fruit', _id: 'one', label: 'Apple' });
-                        expect(result.unchanged[1]).to.eql({ type: 'fruit', _id: 'two', label: 'Orange' });
-                        expect(result.unchanged[2]).to.eql({ type: 'fruit', _id: 'three', label: 'Grape' });
+                expect(result).to.have.property('unchanged');
+                expect(result.unchanged).to.have.length(3);
+                expect(result.unchanged[0]).to.eql({ type: 'fruit', _id: 'one', label: 'Apple' });
+                expect(result.unchanged[1]).to.eql({ type: 'fruit', _id: 'two', label: 'Orange' });
+                expect(result.unchanged[2]).to.eql({ type: 'fruit', _id: 'three', label: 'Grape' });
 
-                        expect(result).to.have.property('create');
-                        expect(result.create).to.have.length(1);
-                        expect(result.create[0]).to.eql({ type: 'vegetable', _id: 'six', label: 'Pumpkin' });
+                expect(result).to.have.property('create');
+                expect(result.create).to.have.length(1);
+                expect(result.create[0]).to.eql({ type: 'vegetable', _id: 'six', label: 'Pumpkin' });
 
-                        expect(result).to.have.property('remove');
-                        expect(result.remove).to.have.length(1);
-                        expect(result.remove[0]).to.eql({ type: 'fruit', _id: 'five', label: 'Plum' });
+                expect(result).to.have.property('remove');
+                expect(result.remove).to.have.length(1);
+                expect(result.remove[0]).to.eql({ type: 'fruit', _id: 'five', label: 'Plum' });
 
-                        expect(result).to.have.property('changed');
-                        expect(result.changed).to.have.length(1);
-                        expect(result.changed[0]).to.eql({ type: 'vegetable', _id: 'four', label: 'Cucumber' });
-
-                    });
+                expect(result).to.have.property('changed');
+                expect(result.changed).to.have.length(1);
+                expect(result.changed[0]).to.eql({ type: 'vegetable', _id: 'four', label: 'Cucumber' });
 
             });
 
@@ -393,7 +363,7 @@ describe('arraySync', function () {
 
                 let called = false;
 
-                return arraySync([
+                const result = arraySync([
                     { type: 'fruit', _id: 1, label: 'Apple', stats: { views: 1, purchases: 1 } },
                     { type: 'fruit', _id: 2, label: 'Cucumber', stats: { views: 10, purchases: 2 } }
                 ], [
@@ -429,28 +399,25 @@ describe('arraySync', function () {
                         return objOne === objTwo;
 
                     }
-                })
-                    .then(function (result) {
+                });
 
-                        expect(result).to.exist;
+                expect(result).to.exist;
 
-                        expect(result).to.have.property('unchanged');
-                        expect(result.unchanged).to.have.length(1);
-                        expect(result.unchanged[0]).to.eql(1);
+                expect(result).to.have.property('unchanged');
+                expect(result.unchanged).to.have.length(1);
+                expect(result.unchanged[0]).to.eql(1);
 
-                        expect(result).to.have.property('create');
-                        expect(result.create).to.have.length(0);
+                expect(result).to.have.property('create');
+                expect(result.create).to.have.length(0);
 
-                        expect(result).to.have.property('remove');
-                        expect(result.remove).to.have.length(0);
+                expect(result).to.have.property('remove');
+                expect(result.remove).to.have.length(0);
 
-                        expect(result).to.have.property('changed');
-                        expect(result.changed).to.have.length(1);
-                        expect(result.changed[0]).to.eql({ type: 'vegetable', _id: 2, label: 'Cucumber', stats: {views: 20, purchases: 5 } });
+                expect(result).to.have.property('changed');
+                expect(result.changed).to.have.length(1);
+                expect(result.changed[0]).to.eql({ type: 'vegetable', _id: 2, label: 'Cucumber', stats: {views: 20, purchases: 5 } });
 
-                        expect(called).to.equal(true);
-
-                    });
+                expect(called).to.equal(true);
 
             });
 
@@ -460,32 +427,29 @@ describe('arraySync', function () {
 
             it('numbers', function () {
 
-                return arraySync([1, 2, 3, 4], [1, 3, 4, 5])
-                    .then(function (result) {
+                const result = arraySync([1, 2, 3, 4], [1, 3, 4, 5]);
 
-                        expect(result).to.exist;
+                expect(result).to.exist;
 
-                        expect(result).to.have.property('unchanged');
-                        expect(result.unchanged).to.have.length(3);
-                        expect(result.unchanged[0]).to.eql(1);
-                        expect(result.unchanged[1]).to.eql(3);
-                        expect(result.unchanged[2]).to.eql(4);
+                expect(result).to.have.property('unchanged');
+                expect(result.unchanged).to.have.length(3);
+                expect(result.unchanged[0]).to.eql(1);
+                expect(result.unchanged[1]).to.eql(3);
+                expect(result.unchanged[2]).to.eql(4);
 
-                        expect(result).to.have.property('create');
-                        expect(result.create).to.have.length(1);
-                        expect(result.create[0]).to.eql(5);
+                expect(result).to.have.property('create');
+                expect(result.create).to.have.length(1);
+                expect(result.create[0]).to.eql(5);
 
-                        expect(result).to.have.property('remove');
-                        expect(result.remove).to.have.length(1);
-                        expect(result.remove[0]).to.eql(2);
-
-                    });
+                expect(result).to.have.property('remove');
+                expect(result.remove).to.have.length(1);
+                expect(result.remove[0]).to.eql(2);
 
             });
 
             it('arrays', function () {
 
-                return arraySync([
+                const result = arraySync([
                     ['a', 'b', 'c'],
                     ['one', 'two', 'three'],
                     ['cat', 'mouse', 'dog'],
@@ -494,88 +458,79 @@ describe('arraySync', function () {
                     ['letter-a', 'letter-b', 'letter-c'],
                     ['one', 'two', 'three'],
                     ['orange', 'apple', 'pear']
-                ])
-                    .then(function (result) {
+                ]);
 
-                        expect(result).to.exist;
+                expect(result).to.exist;
 
-                        expect(result).to.have.property('unchanged');
-                        expect(result.unchanged).to.have.length(2);
-                        expect(result.unchanged[0]).to.eql(['one', 'two', 'three']);
-                        expect(result.unchanged[1]).to.eql(['orange', 'apple', 'pear']);
+                expect(result).to.have.property('unchanged');
+                expect(result.unchanged).to.have.length(2);
+                expect(result.unchanged[0]).to.eql(['one', 'two', 'three']);
+                expect(result.unchanged[1]).to.eql(['orange', 'apple', 'pear']);
 
-                        expect(result).to.have.property('create');
-                        expect(result.create).to.have.length(1);
-                        expect(result.create[0]).to.eql(['letter-a', 'letter-b', 'letter-c']);
+                expect(result).to.have.property('create');
+                expect(result.create).to.have.length(1);
+                expect(result.create[0]).to.eql(['letter-a', 'letter-b', 'letter-c']);
 
-                        expect(result).to.have.property('remove');
-                        expect(result.remove).to.have.length(2);
-                        expect(result.remove[0]).to.eql(['a', 'b', 'c']);
-                        expect(result.remove[1]).to.eql(['cat', 'mouse', 'dog']);
-
-                    });
+                expect(result).to.have.property('remove');
+                expect(result.remove).to.have.length(2);
+                expect(result.remove[0]).to.eql(['a', 'b', 'c']);
+                expect(result.remove[1]).to.eql(['cat', 'mouse', 'dog']);
 
             });
 
             it('objects', function () {
 
-                return arraySync([
+                const result = arraySync([
                     { type: 'fruit', _id: 1, label: 'Apple' },
                     { type: 'fruit', _id: 2, label: 'Cucumber' }
                 ], [
                     { type: 'fruit', _id: 1, label: 'Apple' },
                     { type: 'vegetable', _id: 2, label: 'Cucumber' }
-                ])
-                    .then(function (result) {
+                ]);
 
-                        expect(result).to.exist;
+                expect(result).to.exist;
 
-                        expect(result).to.have.property('unchanged');
-                        expect(result.unchanged).to.have.length(1);
-                        expect(result.unchanged[0]).to.eql({ type: 'fruit', _id: 1, label: 'Apple' });
+                expect(result).to.have.property('unchanged');
+                expect(result.unchanged).to.have.length(1);
+                expect(result.unchanged[0]).to.eql({ type: 'fruit', _id: 1, label: 'Apple' });
 
-                        expect(result).to.have.property('create');
-                        expect(result.create).to.have.length(1);
-                        expect(result.create[0]).to.eql({ type: 'vegetable', _id: 2, label: 'Cucumber' });
+                expect(result).to.have.property('create');
+                expect(result.create).to.have.length(1);
+                expect(result.create[0]).to.eql({ type: 'vegetable', _id: 2, label: 'Cucumber' });
 
-                        expect(result).to.have.property('remove');
-                        expect(result.remove).to.have.length(1);
-                        expect(result.remove[0]).to.eql({ type: 'fruit', _id: 2, label: 'Cucumber' });
+                expect(result).to.have.property('remove');
+                expect(result.remove).to.have.length(1);
+                expect(result.remove[0]).to.eql({ type: 'fruit', _id: 2, label: 'Cucumber' });
 
-                        expect(result).to.not.have.property('changed');
-
-                    });
+                expect(result).to.not.have.property('changed');
 
             });
 
             it('strings', function () {
 
-                return arraySync([
+                const result = arraySync([
                     'Apple',
                     'Cucumber'
                 ], [
                     'Apple',
                     'Pear'
-                ])
-                    .then(function (result) {
+                ]);
 
-                        expect(result).to.exist;
+                expect(result).to.exist;
 
-                        expect(result).to.have.property('unchanged');
-                        expect(result.unchanged).to.have.length(1);
-                        expect(result.unchanged[0]).to.eql('Apple');
+                expect(result).to.have.property('unchanged');
+                expect(result.unchanged).to.have.length(1);
+                expect(result.unchanged[0]).to.eql('Apple');
 
-                        expect(result).to.have.property('create');
-                        expect(result.create).to.have.length(1);
-                        expect(result.create[0]).to.eql('Pear');
+                expect(result).to.have.property('create');
+                expect(result.create).to.have.length(1);
+                expect(result.create[0]).to.eql('Pear');
 
-                        expect(result).to.have.property('remove');
-                        expect(result.remove).to.have.length(1);
-                        expect(result.remove[0]).to.eql('Cucumber');
+                expect(result).to.have.property('remove');
+                expect(result.remove).to.have.length(1);
+                expect(result.remove[0]).to.eql('Cucumber');
 
-                        expect(result).to.not.have.property('changed');
-
-                    });
+                expect(result).to.not.have.property('changed');
 
             });
 

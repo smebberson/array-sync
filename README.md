@@ -36,8 +36,6 @@ Takes a source array, and compares it against an updated version of the source a
 
 By default array-sync will compare using whole-object strict equality (i.e. `assert.deepStrictEqual`) on objects or strict equality on other data types (i.e. `===`). You can customize this by providing a key and a comparator function in the `options` object.
 
-array-sync will always return a promise.
-
 #### source
 
 The `source` array. It must be provided. array-sync will `throw` if it isn't provided.
@@ -55,7 +53,7 @@ array-sync will accept an optional `options` object.
 A `string` which represents the key of an object to compare against. By default array-sync provides whole-object strict equality:
 
 ```
-arraySync([
+const result = arraySync([
     { type: 'node', id: 1, label: 'one' },
     { type: 'node', id: 2, label: 'two' },
     { type: 'node', id: 3, label: 'three' }
@@ -63,22 +61,19 @@ arraySync([
     { type: 'node', id: 1, label: 'one' },
     { type: 'node', id: 2, label: 'Two' },
     { type: 'node', id: 3, label: 'three' }
-])
-    .then(function (result) {
+]);
 
-        // result = {
-        //     unchanged: [{ type: 'node', id: 1, label: 'one' }, { type: 'node', id: 3, label: 'three' }],
-        //     create: [{ type: 'node', id: 2, label: 'Two' }],
-        //     remove: [{ type: 'node', id: 2, label: 'two' }]
-        // }
-
-    });
+// result = {
+//     unchanged: [{ type: 'node', id: 1, label: 'one' }, { type: 'node', id: 3, label: 'three' }],
+//     create: [{ type: 'node', id: 2, label: 'Two' }],
+//     remove: [{ type: 'node', id: 2, label: 'two' }]
+// }
 ```
 
 In this mode it is unable to determine what has changed from what is new. By providing a `key`, array-sync is able to determine if something has changed:
 
 ```
-arraySync([
+const result = arraySync([
     { type: 'node', id: 1, label: 'one' },
     { type: 'node', id: 2, label: 'two' },
     { type: 'node', id: 3, label: 'three' }
@@ -86,17 +81,14 @@ arraySync([
     { type: 'node', id: 1, label: 'one' },
     { type: 'node', id: 2, label: 'Two' },
     { type: 'node', id: 3, label: 'three' }
-], { key: 'id' })
-    .then(function (result) {
+], { key: 'id' });
 
-        // result = {
-        //     unchanged: [1, 3],
-        //     changed: [{ type: 'node', id: 2, label: 'Two' }]
-        //     create: [],
-        //     remove: []
-        // }
-
-    });
+// result = {
+//     unchanged: [1, 3],
+//     changed: [{ type: 'node', id: 2, label: 'Two' }]
+//     create: [],
+//     remove: []
+// }
 ```
 
 If a `key` is provided array-sync adds another key to the object it returns (`changed`). Also only the value of the `key` is returned in `unchanged` and `remove`, whereas the whole object is returned in `changed` and `create`. For database stored information (with an `id`), using a `key` is the more likely scenario and use case.

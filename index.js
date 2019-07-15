@@ -130,7 +130,7 @@ const findChangedValues = (source, update, opts) => source.filter(function (sour
 })
 
 /**
- * Data synchronisation module for Node.js.
+ * Data synchronization module for Node.js.
  *
  * @param  {Array} source       Source array.
  * @param  {Array} update       An updated version of the source array.
@@ -156,38 +156,32 @@ module.exports = function arraySync (source, update, opts = {}) {
         opts.keyOnly = true;
     }
 
-    return new Promise(function (resolve, reject) {
+    // Default return object.
+    const r = {
+        remove: [],
+        unchanged: [],
+        create: []
+    };
 
-        // Default return object.
-        const r = {
-            remove: [],
-            unchanged: [],
-            create: []
-        };
+    // Find the missing values.
+    r.remove = findMissingValues(source, update, opts);
 
-        // Find the missing values.
-        r.remove = findMissingValues(source, update, opts);
+    // Find the new values.
+    r.create = findNewValues(source, update, opts);
 
-        // Find the new values.
-        r.create = findNewValues(source, update, opts);
+    // Add support for a more complex evaluation of Objects, if the `opts.key` has been provided.
+    if (opts.key) {
+        r.changed = findChangedValues(source, update, opts);
+    }
 
-        // Add support for a more complex evaluation of Objects, if the `opts.key` has been provided.
-        if (opts.key) {
-            r.changed = findChangedValues(source, update, opts);
-        }
+    // Determine the unchanged values (those that aren't new, nor missing).
+    r.unchanged = findUnchangedValues(source, r.remove.concat(r.create, r.changed || []), opts);
 
-        // Determine the unchanged values (those that aren't new, nor missing).
-        r.unchanged = findUnchangedValues(source, r.remove.concat(r.create, r.changed || []), opts);
-
-        // If we have a `key`, transform the results to contain only the key Object.
-        if (opts.key && opts.keyOnly) {
-            r.remove = mapToKey(r.remove, opts.key);
-            r.unchanged = mapToKey(r.unchanged, opts.key);
-        }
-
-        // Resolve the result.
-        return resolve(r);
-
-    });
+    // If we have a `key`, transform the results to contain only the key Object.
+    if (opts.key && opts.keyOnly) {
+        r.remove = mapToKey(r.remove, opts.key);
+        r.unchanged = mapToKey(r.unchanged, opts.key);
+    }
+    return r;
 
 }
