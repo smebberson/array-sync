@@ -2,9 +2,9 @@
 
 All notable changes to array-sync will be documented here. This project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## 4.0.0 - 2019-07-15
 
--   Removed the promise-based API.
+-   **_Breaking change_**: removed the promise-based API.
 -   Moved to Jest.
 -   Added Prettier.
 -   Removed Greenkeeper.
