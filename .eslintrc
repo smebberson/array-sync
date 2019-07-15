@@ -4,6 +4,7 @@
         "node": true,
         "es6": true
     },
+    "extends": ["prettier"],
     "rules": {
         "quotes": [1, "single"],
         "strict": 0,
