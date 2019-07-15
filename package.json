@@ -1,37 +1,42 @@
 {
-  "name": "array-sync",
-  "version": "3.0.1",
-  "description": "Data synchronisation module for Node.js",
-  "main": "index.js",
-  "engines": {
-    "node": ">= 6.0"
-  },
-  "scripts": {
-    "test": "./node_modules/.bin/mocha",
-    "coverage": "./test-coverage.sh",
-    "travis": "./test-travis.sh"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/smebberson/array-sync.git"
-  },
-  "keywords": [
-    "data",
-    "synchronisation",
-    "sync",
-    "array"
-  ],
-  "author": "Scott Mebberson",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/smebberson/array-sync/issues"
-  },
-  "homepage": "https://github.com/smebberson/array-sync#readme",
-  "devDependencies": {
-    "chai": "4.2.0",
-    "chai-as-promised": "7.1.1",
-    "clone": "2.1.2",
-    "mocha": "6.1.4",
-    "nyc": "14.1.1"
-  }
+    "name": "array-sync",
+    "version": "4.0.0",
+    "description": "Data synchronisation module for Node.js",
+    "main": "index.js",
+    "engines": {
+        "node": ">= 6.0"
+    },
+    "scripts": {
+        "test": "jest --coverage"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/smebberson/array-sync.git"
+    },
+    "keywords": [
+        "data",
+        "synchronization",
+        "sync",
+        "array"
+    ],
+    "husky": {
+        "hooks": {
+            "pre-commit": "pretty-quick --staged"
+        }
+    },
+    "author": "Scott Mebberson",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/smebberson/array-sync/issues"
+    },
+    "homepage": "https://github.com/smebberson/array-sync#readme",
+    "devDependencies": {
+        "clone": "2.1.2",
+        "codecov": "3.5.0",
+        "eslint-config-prettier": "6.0.0",
+        "husky": "3.0.0",
+        "jest": "24.8.0",
+        "prettier": "1.18.2",
+        "pretty-quick": "1.11.1"
+    }
 }

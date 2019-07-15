@@ -1,9 +1,8 @@
 # array-sync
 
 [![npm](https://img.shields.io/npm/v/array-sync.svg)](https://www.npmjs.com/package/array-sync)
-![Snyk Vulnerabilities for npm package](https://img.shields.io/snyk/vulnerabilities/npm/array-sync.svg)
 [![Build Status](https://travis-ci.org/smebberson/array-sync.svg?branch=master)](https://travis-ci.org/smebberson/array-sync)
-[![Coverage Status](https://codecov.io/github/smebberson/array-sync/coverage.svg?branch=master)](https://codecov.io/github/smebberson/array-sync?branch=master) [![Greenkeeper badge](https://badges.greenkeeper.io/smebberson/array-sync.svg)](https://greenkeeper.io/)
+[![codecov](https://codecov.io/gh/smebberson/array-sync/branch/master/graph/badge.svg)](https://codecov.io/gh/smebberson/array-sync)
 
 array-sync is a complete data synchronization module for Node.js, highly customizable. It will accept a source array, an updated version of that source array and provide an object containing the keys `remove`, `unchanged`, `changed` and `create`.
 
@@ -36,8 +35,6 @@ Takes a source array, and compares it against an updated version of the source a
 
 By default array-sync will compare using whole-object strict equality (i.e. `assert.deepStrictEqual`) on objects or strict equality on other data types (i.e. `===`). You can customize this by providing a key and a comparator function in the `options` object.
 
-array-sync will always return a promise.
-
 #### source
 
 The `source` array. It must be provided. array-sync will `throw` if it isn't provided.
@@ -55,7 +52,7 @@ array-sync will accept an optional `options` object.
 A `string` which represents the key of an object to compare against. By default array-sync provides whole-object strict equality:
 
 ```
-arraySync([
+const result = arraySync([
     { type: 'node', id: 1, label: 'one' },
     { type: 'node', id: 2, label: 'two' },
     { type: 'node', id: 3, label: 'three' }
@@ -63,22 +60,19 @@ arraySync([
     { type: 'node', id: 1, label: 'one' },
     { type: 'node', id: 2, label: 'Two' },
     { type: 'node', id: 3, label: 'three' }
-])
-    .then(function (result) {
+]);
 
-        // result = {
-        //     unchanged: [{ type: 'node', id: 1, label: 'one' }, { type: 'node', id: 3, label: 'three' }],
-        //     create: [{ type: 'node', id: 2, label: 'Two' }],
-        //     remove: [{ type: 'node', id: 2, label: 'two' }]
-        // }
-
-    });
+// result = {
+//     unchanged: [{ type: 'node', id: 1, label: 'one' }, { type: 'node', id: 3, label: 'three' }],
+//     create: [{ type: 'node', id: 2, label: 'Two' }],
+//     remove: [{ type: 'node', id: 2, label: 'two' }]
+// }
 ```
 
 In this mode it is unable to determine what has changed from what is new. By providing a `key`, array-sync is able to determine if something has changed:
 
 ```
-arraySync([
+const result = arraySync([
     { type: 'node', id: 1, label: 'one' },
     { type: 'node', id: 2, label: 'two' },
     { type: 'node', id: 3, label: 'three' }
@@ -86,17 +80,14 @@ arraySync([
     { type: 'node', id: 1, label: 'one' },
     { type: 'node', id: 2, label: 'Two' },
     { type: 'node', id: 3, label: 'three' }
-], { key: 'id' })
-    .then(function (result) {
+], { key: 'id' });
 
-        // result = {
-        //     unchanged: [1, 3],
-        //     changed: [{ type: 'node', id: 2, label: 'Two' }]
-        //     create: [],
-        //     remove: []
-        // }
-
-    });
+// result = {
+//     unchanged: [1, 3],
+//     changed: [{ type: 'node', id: 2, label: 'Two' }]
+//     create: [],
+//     remove: []
+// }
 ```
 
 If a `key` is provided array-sync adds another key to the object it returns (`changed`). Also only the value of the `key` is returned in `unchanged` and `remove`, whereas the whole object is returned in `changed` and `create`. For database stored information (with an `id`), using a `key` is the more likely scenario and use case.
@@ -133,8 +124,8 @@ function comparator (objOne, objTwo) {
 
 It will `assert.deepStrictEqual` compare objects, and `===` strict equals compare everything else. You can provide a custom comparator and do whatever you need to. Be aware that the comparator can be in the following two instances:
 
-- To compare keys.
-- To compare values of keys.
+-   To compare keys.
+-   To compare values of keys.
 
 The default comparator provides support for this scenario, and so will any custom comparator (don't just assume you'll be comparing objects or whatever type of data the `source` and `update` arrays hold).
 
