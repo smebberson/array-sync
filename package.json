@@ -7,8 +7,7 @@
     "node": ">= 6.0"
   },
   "scripts": {
-    "test": "jest --coverage",
-    "travis": "./test-travis.sh"
+    "test": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -16,7 +15,7 @@
   },
   "keywords": [
     "data",
-    "synchronisation",
+    "synchronization",
     "sync",
     "array"
   ],

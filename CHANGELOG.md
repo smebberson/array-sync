@@ -6,6 +6,7 @@ All notable changes to array-sync will be documented here. This project adheres 
 ## Unreleased
 
 - Removed the promise-based API.
+- Moved to Jest.
 
 ## 3.0.1 - 2019-04-09
 
