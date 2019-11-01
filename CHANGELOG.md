@@ -6,6 +6,8 @@ All notable changes to array-sync will be documented here. This project adheres 
 
 -   Removed `assert` to provide a massive performance boost.
 -   Added support for comparison of Symbol(s) and Function(s).
+-   **Deprecated** the `remove` property, renaming it to `removed`.
+-   **Deprecated** the `create` property, renaming it to `created`.
 
 ## 4.0.0 - 2019-07-15
 

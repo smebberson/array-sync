@@ -145,15 +145,15 @@ const findNewValues = (source, update, opts) =>
 /**
  * Find anything that is exactly the same between the `source` array and the `update` array.
  * @param  {Array} source                  Source array.
- * @param  {Array} removeCreateAndChanged  An updated version of the source array.
+ * @param  {Array} removedCreatedChanged  An updated version of the source array.
  * @param  {Object} opts                   An Object containing information to alter the outcome of the function.
  * @return {Array}                         An array of items that appear in the `update` array and exactly match
  *                                         their counterpart in the `source` array.
  */
-const findUnchangedValues = (source, removeCreateAndChanged, opts) =>
+const findUnchangedValues = (source, removedCreatedChanged, opts) =>
     source.filter(function(sourceValue) {
         return (
-            removeCreateAndChanged.find(function(element, index, array) {
+            removedCreatedChanged.find(function(element, index, array) {
                 // If we have a key, we only want to compare the actual key is the same.
                 if (opts.key) {
                     return (
@@ -247,16 +247,28 @@ module.exports = function arraySync(source, update, opts = {}) {
 
     // Default return object.
     const r = {
-        remove: [],
+        get create() {
+            console.log(
+                'DeprecationWarning: The create property has been deprecated, use the created property instead.'
+            );
+            return this.removed;
+        },
+        get remove() {
+            console.log(
+                'DeprecationWarning: The remove property has been deprecated, use the removed property instead.'
+            );
+            return this.removed;
+        },
+        removed: [],
         unchanged: [],
-        create: []
+        created: []
     };
 
     // Find the missing values.
-    r.remove = findMissingValues(source, update, opts);
+    r.removed = findMissingValues(source, update, opts);
 
     // Find the new values.
-    r.create = findNewValues(source, update, opts);
+    r.created = findNewValues(source, update, opts);
 
     // Add support for a more complex evaluation of Objects, if the `opts.key` has been provided.
     if (opts.key) {
@@ -266,13 +278,13 @@ module.exports = function arraySync(source, update, opts = {}) {
     // Determine the unchanged values (those that aren't new, nor missing).
     r.unchanged = findUnchangedValues(
         source,
-        r.remove.concat(r.create, r.changed || []),
+        r.removed.concat(r.created, r.changed || []),
         opts
     );
 
     // If we have a `key`, transform the results to contain only the key Object.
     if (opts.key && opts.keyOnly) {
-        r.remove = mapToKey(r.remove, opts.key);
+        r.removed = mapToKey(r.removed, opts.key);
         r.unchanged = mapToKey(r.unchanged, opts.key);
     }
 

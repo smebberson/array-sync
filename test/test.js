@@ -32,19 +32,19 @@ describe('arraySync', () => {
         const results = arraySync([], [], {});
 
         expect(results).toBeDefined();
-        expect(results).toHaveProperty('remove');
+        expect(results).toHaveProperty('removed');
         expect(results).toHaveProperty('unchanged');
-        expect(results).toHaveProperty('create');
+        expect(results).toHaveProperty('created');
         expect(results).not.toHaveProperty('changed');
     });
 
-    test('will resolve to an object with the keys remove, unchanged, create', () => {
+    test('will resolve to an object with the keys removed, unchanged, created', () => {
         const results = arraySync([], []);
 
         expect(results).toBeDefined();
-        expect(results).toHaveProperty('remove');
+        expect(results).toHaveProperty('removed');
         expect(results).toHaveProperty('unchanged');
-        expect(results).toHaveProperty('create');
+        expect(results).toHaveProperty('created');
         expect(results).not.toHaveProperty('changed');
     });
 
@@ -101,12 +101,12 @@ describe('arraySync', () => {
 
                     expect(result).toBeDefined();
                     expect(result).toHaveProperty('unchanged');
-                    expect(result).toHaveProperty('create');
+                    expect(result).toHaveProperty('created');
                     expect(result).not.toHaveProperty('changed');
 
-                    expect(result).toHaveProperty('remove');
-                    expect(result.remove).toHaveLength(1);
-                    expect(result.remove[0]).toBe('two');
+                    expect(result).toHaveProperty('removed');
+                    expect(result.removed).toHaveLength(1);
+                    expect(result.removed[0]).toBe('two');
                 });
 
                 test('when working with objects', () => {
@@ -124,19 +124,19 @@ describe('arraySync', () => {
 
                     expect(result).toBeDefined();
                     expect(result).toHaveProperty('unchanged');
-                    expect(result).toHaveProperty('create');
+                    expect(result).toHaveProperty('created');
                     expect(result).not.toHaveProperty('changed');
 
-                    expect(result).toHaveProperty('remove');
-                    expect(result.remove).toHaveLength(1);
-                    expect(result.remove[0]).toEqual({
+                    expect(result).toHaveProperty('removed');
+                    expect(result.removed).toHaveLength(1);
+                    expect(result.removed[0]).toEqual({
                         type: 'node',
                         label: 'two'
                     });
                 });
             });
 
-            describe('should be created', () => {
+            describe('should be createdd', () => {
                 test('when working with strings', () => {
                     const result = arraySync(
                         ['one', 'two', 'three', 'four'],
@@ -145,12 +145,12 @@ describe('arraySync', () => {
 
                     expect(result).toBeDefined();
                     expect(result).toHaveProperty('unchanged');
-                    expect(result).toHaveProperty('remove');
+                    expect(result).toHaveProperty('removed');
                     expect(result).not.toHaveProperty('changed');
 
-                    expect(result).toHaveProperty('create');
-                    expect(result.create).toHaveLength(1);
-                    expect(result.create[0]).toBe('five');
+                    expect(result).toHaveProperty('created');
+                    expect(result.created).toHaveLength(1);
+                    expect(result.created[0]).toBe('five');
                 });
 
                 test('when working with objects', () => {
@@ -168,12 +168,12 @@ describe('arraySync', () => {
 
                     expect(result).toBeDefined();
                     expect(result).toHaveProperty('unchanged');
-                    expect(result).toHaveProperty('remove');
+                    expect(result).toHaveProperty('removed');
                     expect(result).not.toHaveProperty('changed');
 
-                    expect(result).toHaveProperty('create');
-                    expect(result.create).toHaveLength(1);
-                    expect(result.create[0]).toEqual({
+                    expect(result).toHaveProperty('created');
+                    expect(result.created).toHaveLength(1);
+                    expect(result.created[0]).toEqual({
                         type: 'node',
                         label: 'three'
                     });
@@ -188,8 +188,8 @@ describe('arraySync', () => {
                     );
 
                     expect(result).toBeDefined();
-                    expect(result).toHaveProperty('remove');
-                    expect(result).toHaveProperty('create');
+                    expect(result).toHaveProperty('removed');
+                    expect(result).toHaveProperty('created');
                     expect(result).not.toHaveProperty('changed');
 
                     expect(result).toHaveProperty('unchanged');
@@ -214,8 +214,8 @@ describe('arraySync', () => {
                     );
 
                     expect(result).toBeDefined();
-                    expect(result).toHaveProperty('remove');
-                    expect(result).toHaveProperty('create');
+                    expect(result).toHaveProperty('removed');
+                    expect(result).toHaveProperty('created');
                     expect(result).not.toHaveProperty('changed');
 
                     expect(result).toHaveProperty('unchanged');
@@ -231,7 +231,7 @@ describe('arraySync', () => {
                 });
             });
 
-            describe('are unchanged, to be removed and to be created', () => {
+            describe('are unchanged, to be removed and to be createdd', () => {
                 test('when working with strings', () => {
                     const result = arraySync(
                         ['one', 'two', 'three', 'four'],
@@ -241,13 +241,13 @@ describe('arraySync', () => {
                     expect(result).toBeDefined();
                     expect(result).not.toHaveProperty('changed');
 
-                    expect(result).toHaveProperty('remove');
-                    expect(result.remove).toHaveLength(1);
-                    expect(result.remove[0]).toBe('two');
+                    expect(result).toHaveProperty('removed');
+                    expect(result.removed).toHaveLength(1);
+                    expect(result.removed[0]).toBe('two');
 
-                    expect(result).toHaveProperty('create');
-                    expect(result.create).toHaveLength(1);
-                    expect(result.create[0]).toBe('five');
+                    expect(result).toHaveProperty('created');
+                    expect(result.created).toHaveLength(1);
+                    expect(result.created[0]).toBe('five');
 
                     expect(result).toHaveProperty('unchanged');
                     expect(result.unchanged).toHaveLength(3);
@@ -275,16 +275,16 @@ describe('arraySync', () => {
                     expect(result).toBeDefined();
                     expect(result).not.toHaveProperty('changed');
 
-                    expect(result).toHaveProperty('remove');
-                    expect(result.remove).toHaveLength(1);
-                    expect(result.remove[0]).toEqual({
+                    expect(result).toHaveProperty('removed');
+                    expect(result.removed).toHaveLength(1);
+                    expect(result.removed[0]).toEqual({
                         type: 'node',
                         label: 'four'
                     });
 
-                    expect(result).toHaveProperty('create');
-                    expect(result.create).toHaveLength(1);
-                    expect(result.create[0]).toEqual({
+                    expect(result).toHaveProperty('created');
+                    expect(result.created).toHaveLength(1);
+                    expect(result.created[0]).toEqual({
                         type: 'node',
                         label: 'five'
                     });
@@ -308,7 +308,7 @@ describe('arraySync', () => {
         });
 
         describe('use a key, to compare complex items', () => {
-            test('and determine which items are unchanged, to be removed and to be created', () => {
+            test('and determine which items are unchanged, to be removed and to be createdd', () => {
                 const result = arraySync(
                     [
                         { type: 'fruit', _id: 'one', label: 'Apple' },
@@ -337,17 +337,17 @@ describe('arraySync', () => {
                 expect(result.unchanged[1]).toBe('two');
                 expect(result.unchanged[2]).toBe('three');
 
-                expect(result).toHaveProperty('create');
-                expect(result.create).toHaveLength(1);
-                expect(result.create[0]).toEqual({
+                expect(result).toHaveProperty('created');
+                expect(result.created).toHaveLength(1);
+                expect(result.created[0]).toEqual({
                     type: 'vegetable',
                     _id: 'six',
                     label: 'Pumpkin'
                 });
 
-                expect(result).toHaveProperty('remove');
-                expect(result.remove).toHaveLength(1);
-                expect(result.remove[0]).toBe('five');
+                expect(result).toHaveProperty('removed');
+                expect(result.removed).toHaveLength(1);
+                expect(result.removed[0]).toBe('five');
 
                 expect(result).toHaveProperty('changed');
                 expect(result.changed).toHaveLength(1);
@@ -400,17 +400,17 @@ describe('arraySync', () => {
                     label: 'Grape'
                 });
 
-                expect(result).toHaveProperty('create');
-                expect(result.create).toHaveLength(1);
-                expect(result.create[0]).toEqual({
+                expect(result).toHaveProperty('created');
+                expect(result.created).toHaveLength(1);
+                expect(result.created[0]).toEqual({
                     type: 'vegetable',
                     _id: 'six',
                     label: 'Pumpkin'
                 });
 
-                expect(result).toHaveProperty('remove');
-                expect(result.remove).toHaveLength(1);
-                expect(result.remove[0]).toEqual({
+                expect(result).toHaveProperty('removed');
+                expect(result.removed).toHaveLength(1);
+                expect(result.removed[0]).toEqual({
                     type: 'fruit',
                     _id: 'five',
                     label: 'Plum'
@@ -427,7 +427,7 @@ describe('arraySync', () => {
         });
 
         describe('use a key, and a custom comparator', () => {
-            test('and determine which items are unchanged, to be removed and to be created', () => {
+            test('and determine which items are unchanged, to be removed and to be createdd', () => {
                 let called = false;
 
                 const result = arraySync(
@@ -494,11 +494,11 @@ describe('arraySync', () => {
                 expect(result.unchanged).toHaveLength(1);
                 expect(result.unchanged[0]).toBe(1);
 
-                expect(result).toHaveProperty('create');
-                expect(result.create).toHaveLength(0);
+                expect(result).toHaveProperty('created');
+                expect(result.created).toHaveLength(0);
 
-                expect(result).toHaveProperty('remove');
-                expect(result.remove).toHaveLength(0);
+                expect(result).toHaveProperty('removed');
+                expect(result.removed).toHaveLength(0);
 
                 expect(result).toHaveProperty('changed');
                 expect(result.changed).toHaveLength(1);
@@ -525,13 +525,13 @@ describe('arraySync', () => {
                 expect(result.unchanged[1]).toBe(3);
                 expect(result.unchanged[2]).toBe(4);
 
-                expect(result).toHaveProperty('create');
-                expect(result.create).toHaveLength(1);
-                expect(result.create[0]).toBe(5);
+                expect(result).toHaveProperty('created');
+                expect(result.created).toHaveLength(1);
+                expect(result.created[0]).toBe(5);
 
-                expect(result).toHaveProperty('remove');
-                expect(result.remove).toHaveLength(1);
-                expect(result.remove[0]).toBe(2);
+                expect(result).toHaveProperty('removed');
+                expect(result.removed).toHaveLength(1);
+                expect(result.removed[0]).toBe(2);
             });
 
             test('arrays', () => {
@@ -560,18 +560,18 @@ describe('arraySync', () => {
                     'pear'
                 ]);
 
-                expect(result).toHaveProperty('create');
-                expect(result.create).toHaveLength(1);
-                expect(result.create[0]).toEqual([
+                expect(result).toHaveProperty('created');
+                expect(result.created).toHaveLength(1);
+                expect(result.created[0]).toEqual([
                     'letter-a',
                     'letter-b',
                     'letter-c'
                 ]);
 
-                expect(result).toHaveProperty('remove');
-                expect(result.remove).toHaveLength(2);
-                expect(result.remove[0]).toEqual(['a', 'b', 'c']);
-                expect(result.remove[1]).toEqual(['cat', 'mouse', 'dog']);
+                expect(result).toHaveProperty('removed');
+                expect(result.removed).toHaveLength(2);
+                expect(result.removed[0]).toEqual(['a', 'b', 'c']);
+                expect(result.removed[1]).toEqual(['cat', 'mouse', 'dog']);
             });
 
             test('objects', () => {
@@ -596,17 +596,17 @@ describe('arraySync', () => {
                     label: 'Apple'
                 });
 
-                expect(result).toHaveProperty('create');
-                expect(result.create).toHaveLength(1);
-                expect(result.create[0]).toEqual({
+                expect(result).toHaveProperty('created');
+                expect(result.created).toHaveLength(1);
+                expect(result.created[0]).toEqual({
                     type: 'vegetable',
                     _id: 2,
                     label: 'Cucumber'
                 });
 
-                expect(result).toHaveProperty('remove');
-                expect(result.remove).toHaveLength(1);
-                expect(result.remove[0]).toEqual({
+                expect(result).toHaveProperty('removed');
+                expect(result.removed).toHaveLength(1);
+                expect(result.removed[0]).toEqual({
                     type: 'fruit',
                     _id: 2,
                     label: 'Cucumber'
@@ -627,13 +627,13 @@ describe('arraySync', () => {
                 expect(result.unchanged).toHaveLength(1);
                 expect(result.unchanged[0]).toBe('Apple');
 
-                expect(result).toHaveProperty('create');
-                expect(result.create).toHaveLength(1);
-                expect(result.create[0]).toBe('Pear');
+                expect(result).toHaveProperty('created');
+                expect(result.created).toHaveLength(1);
+                expect(result.created[0]).toBe('Pear');
 
-                expect(result).toHaveProperty('remove');
-                expect(result.remove).toHaveLength(1);
-                expect(result.remove[0]).toBe('Cucumber');
+                expect(result).toHaveProperty('removed');
+                expect(result.removed).toHaveLength(1);
+                expect(result.removed[0]).toBe('Cucumber');
 
                 expect(result).not.toHaveProperty('changed');
             });
@@ -652,15 +652,15 @@ describe('arraySync', () => {
                     ((v) => v()).toString()
                 );
 
-                expect(result).toHaveProperty('create');
-                expect(result.create).toHaveLength(1);
-                expect(result.create[0].toString()).toBe(
+                expect(result).toHaveProperty('created');
+                expect(result.created).toHaveLength(1);
+                expect(result.created[0].toString()).toBe(
                     ((g) => g()).toString()
                 );
 
-                expect(result).toHaveProperty('remove');
-                expect(result.remove).toHaveLength(1);
-                expect(result.remove[0].toString()).toBe(
+                expect(result).toHaveProperty('removed');
+                expect(result.removed).toHaveLength(1);
+                expect(result.removed[0].toString()).toBe(
                     ((i) => i()).toString()
                 );
 
@@ -680,20 +680,78 @@ describe('arraySync', () => {
                     Symbol('v').toString()
                 );
 
-                expect(result).toHaveProperty('create');
-                expect(result.create).toHaveLength(1);
-                expect(result.create[0].toString()).toBe(
+                expect(result).toHaveProperty('created');
+                expect(result.created).toHaveLength(1);
+                expect(result.created[0].toString()).toBe(
                     Symbol('g').toString()
                 );
 
-                expect(result).toHaveProperty('remove');
-                expect(result.remove).toHaveLength(1);
-                expect(result.remove[0].toString()).toBe(
+                expect(result).toHaveProperty('removed');
+                expect(result.removed).toHaveLength(1);
+                expect(result.removed[0].toString()).toBe(
                     Symbol('i').toString()
                 );
 
                 expect(result).not.toHaveProperty('changed');
             });
+        });
+    });
+    describe('deprecations', () => {
+        test('create -> created', () => {
+            let result = arraySync([], [Symbol('g')]);
+            const original = console.log;
+            const mockFn = jest.fn();
+
+            console.log = mockFn;
+
+            expect(result).toBeDefined();
+
+            expect(result).toHaveProperty('unchanged');
+            expect(result.unchanged).toHaveLength(0);
+
+            expect(result).toHaveProperty('created');
+            expect(result.created).toHaveLength(1);
+            expect(result.created[0].toString()).toBe(Symbol('g').toString());
+
+            expect(result).toHaveProperty('removed');
+            expect(result.removed).toHaveLength(0);
+
+            expect(result).not.toHaveProperty('changed');
+
+            result.create;
+
+            console.log = original;
+
+            expect(mockFn.mock.calls).toHaveLength(1);
+            expect(mockFn.mock.calls[0][0]).toMatch(/DeprecationWarning/);
+        });
+        test('remove -> removed', () => {
+            let result = arraySync([], [Symbol('g')]);
+            const original = console.log;
+            const mockFn = jest.fn();
+
+            console.log = mockFn;
+
+            expect(result).toBeDefined();
+
+            expect(result).toHaveProperty('unchanged');
+            expect(result.unchanged).toHaveLength(0);
+
+            expect(result).toHaveProperty('created');
+            expect(result.created).toHaveLength(1);
+            expect(result.created[0].toString()).toBe(Symbol('g').toString());
+
+            expect(result).toHaveProperty('removed');
+            expect(result.removed).toHaveLength(0);
+
+            expect(result).not.toHaveProperty('changed');
+
+            result.remove;
+
+            console.log = original;
+
+            expect(mockFn.mock.calls).toHaveLength(1);
+            expect(mockFn.mock.calls[0][0]).toMatch(/DeprecationWarning/);
         });
     });
 });
