@@ -1,25 +1,88 @@
-const assert = require('assert');
+/**
+ * Determine if something is array.
+ * @param  {String} valueType A string returned from the `type` function.
+ * @return {Boolean}          Return `true` if the object is an array.
+ */
+const isArray = (valueType) => valueType === '[object Array]';
 
 /**
- * The default comparator function. Simple strict equality all the way.
+ * Determine if something is a function.
+ * @param  {String} valueType A string returned from the `type` function.
+ * @return {Boolean}          Return `true` if the object is a function.
+ */
+const isFunction = (valueType) => valueType === '[object Function]';
+
+/**
+ * Determine if something is a symbol.
+ * @param  {String} valueType A string returned from the `type` symbol.
+ * @return {Boolean}          Return `true` if the object is a symbol.
+ */
+const isSymbol = (valueType) => valueType === '[object Symbol]';
+
+/**
+ * Determine if something is a plain object.
+ * @param  {String} valueType A string returned from the `type` function.
+ * @return {Boolean}          Return `true` if the object is a plain object.
+ */
+const isObject = (valueType) => valueType === '[object Object]';
+
+/**
+ * Determine if something is a plain object, or an array.
+ * @param  {String} valueType A string returned from the `type` function.
+ * @return {Boolean}          Return `true` if the object is a plain object, or an array.
+ */
+const isObjectOrArray = (valueType) =>
+    isObject(valueType) || isArray(valueType);
+
+/**
+ * Convert the type of an object to string for easy comparison.
+ * @param  {Any} value An object to determine the value of.
+ * @return {Boolean}   Return a string representing the type of object (i.e. `[object Object]` or `[object Array]`).
+ */
+const type = (value) => Object.prototype.toString.call(value);
+
+/**
+ * Used to compare if two items are equal.
  * @param  {Any} objOne The first object to compare.
  * @param  {Any} objTwo Compare the first object to this object.
  * @return {Boolean}    Return `true` if the object is the same, otherwise return `false`.
  */
-const comparator = (objOne, objTwo) => {
-    // Compare an object to an object.
-    if (typeof objOne === 'object') {
-        try {
-            assert.deepStrictEqual(objOne, objTwo);
-        } catch (e) {
-            return false;
-        }
+const isEqual = (value, other) => {
+    // Get the value type
+    const valueType = type(value);
 
-        return true;
+    // Compare properties
+    if (isArray(valueType)) {
+        return value.every((v, i) => comparator(v, other[i]));
     }
 
-    // Compare anything that is not (typeof objOne) === 'object' using the simple strict equals.
-    return objOne === objTwo;
+    return Object.getOwnPropertyNames(value).every((key) =>
+        comparator(value[key], other[key])
+    );
+};
+
+/**
+ * The default comparator function, which will loop through arrays to compare them.
+ * @param  {Any} objOne The first object to compare.
+ * @param  {Any} objTwo Compare the first object to this object.
+ * @return {Boolean}    Return `true` if the object is the same, otherwise return `false`.
+ */
+const comparator = (item1, item2) => {
+    // Get the object type
+    const itemType = type(item1);
+
+    // If an object or array, compare recursively
+    if (isObjectOrArray(itemType)) {
+        return isEqual(item1, item2);
+    }
+
+    // If it's a function, convert to a string and compare.
+    if (isFunction(itemType) || isSymbol(itemType)) {
+        return item1.toString() === item2.toString();
+    }
+
+    // Otherwise, just compare.
+    return item1 === item2;
 };
 
 /**
