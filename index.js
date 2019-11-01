@@ -1,5 +1,5 @@
 /**
- * Determine if something is array.
+ * Determine if something is an array.
  * @param  {String} valueType A string returned from the `type` function.
  * @return {Boolean}          Return `true` if the object is an array.
  */
@@ -36,10 +36,10 @@ const isObjectOrArray = (valueType) =>
 
 /**
  * Convert the type of an object to string for easy comparison.
- * @param  {Any} value An object to determine the value of.
+ * @param  {Any} obj An object to determine the value of.
  * @return {Boolean}   Return a string representing the type of object (i.e. `[object Object]` or `[object Array]`).
  */
-const type = (value) => Object.prototype.toString.call(value);
+const type = (obj) => Object.prototype.toString.call(obj);
 
 /**
  * Used to compare if two items are equal.
@@ -47,17 +47,17 @@ const type = (value) => Object.prototype.toString.call(value);
  * @param  {Any} objTwo Compare the first object to this object.
  * @return {Boolean}    Return `true` if the object is the same, otherwise return `false`.
  */
-const isEqual = (value, other) => {
+const isEqual = (objOne, objTwo) => {
     // Get the value type
-    const valueType = type(value);
+    const objOneType = type(objOne);
 
     // Compare properties
-    if (isArray(valueType)) {
-        return value.every((v, i) => comparator(v, other[i]));
+    if (isArray(objOneType)) {
+        return objOne.every((v, i) => comparator(v, objTwo[i]));
     }
 
-    return Object.getOwnPropertyNames(value).every((key) =>
-        comparator(value[key], other[key])
+    return Object.getOwnPropertyNames(objOne).every((key) =>
+        comparator(objOne[key], objTwo[key])
     );
 };
 
@@ -67,22 +67,22 @@ const isEqual = (value, other) => {
  * @param  {Any} objTwo Compare the first object to this object.
  * @return {Boolean}    Return `true` if the object is the same, otherwise return `false`.
  */
-const comparator = (item1, item2) => {
+const comparator = (objOne, objTwo) => {
     // Get the object type
-    const itemType = type(item1);
+    const objOneType = type(objOne);
 
     // If an object or array, compare recursively
-    if (isObjectOrArray(itemType)) {
-        return isEqual(item1, item2);
+    if (isObjectOrArray(objOneType)) {
+        return isEqual(objOne, objTwo);
     }
 
     // If it's a function, convert to a string and compare.
-    if (isFunction(itemType) || isSymbol(itemType)) {
-        return item1.toString() === item2.toString();
+    if (isFunction(objOneType) || isSymbol(objOneType)) {
+        return objOne.toString() === objTwo.toString();
     }
 
     // Otherwise, just compare.
-    return item1 === item2;
+    return objOne === objTwo;
 };
 
 /**
