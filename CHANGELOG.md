@@ -2,7 +2,7 @@
 
 All notable changes to array-sync will be documented here. This project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## 4.1.0 - 2019-11-01
 
 -   Removed `assert` to provide a massive performance boost.
 -   Added support for comparison of Symbol(s) and Function(s).
