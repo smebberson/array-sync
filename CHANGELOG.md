@@ -2,6 +2,13 @@
 
 All notable changes to array-sync will be documented here. This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.1.0 - 2019-11-01
+
+-   Removed `assert` to provide a massive performance boost.
+-   Added support for comparison of Symbol(s) and Function(s).
+-   **Deprecated** the `remove` property, renaming it to `removed`.
+-   **Deprecated** the `create` property, renaming it to `created`.
+
 ## 4.0.0 - 2019-07-15
 
 -   **_Breaking change_**: removed the promise-based API.

@@ -1,24 +1,87 @@
-const assert = require('assert');
+/**
+ * Determine if something is an array.
+ * @param  {String} valueType A string returned from the `type` function.
+ * @return {Boolean}          Return `true` if the object is an array.
+ */
+const isArray = (valueType) => valueType === '[object Array]';
 
 /**
- * The default comparator function. Simple strict equality all the way.
+ * Determine if something is a function.
+ * @param  {String} valueType A string returned from the `type` function.
+ * @return {Boolean}          Return `true` if the object is a function.
+ */
+const isFunction = (valueType) => valueType === '[object Function]';
+
+/**
+ * Determine if something is a symbol.
+ * @param  {String} valueType A string returned from the `type` symbol.
+ * @return {Boolean}          Return `true` if the object is a symbol.
+ */
+const isSymbol = (valueType) => valueType === '[object Symbol]';
+
+/**
+ * Determine if something is a plain object.
+ * @param  {String} valueType A string returned from the `type` function.
+ * @return {Boolean}          Return `true` if the object is a plain object.
+ */
+const isObject = (valueType) => valueType === '[object Object]';
+
+/**
+ * Determine if something is a plain object, or an array.
+ * @param  {String} valueType A string returned from the `type` function.
+ * @return {Boolean}          Return `true` if the object is a plain object, or an array.
+ */
+const isObjectOrArray = (valueType) =>
+    isObject(valueType) || isArray(valueType);
+
+/**
+ * Convert the type of an object to string for easy comparison.
+ * @param  {Any} obj An object to determine the value of.
+ * @return {Boolean}   Return a string representing the type of object (i.e. `[object Object]` or `[object Array]`).
+ */
+const type = (obj) => Object.prototype.toString.call(obj);
+
+/**
+ * Used to compare if two items are equal.
+ * @param  {Any} objOne The first object to compare.
+ * @param  {Any} objTwo Compare the first object to this object.
+ * @return {Boolean}    Return `true` if the object is the same, otherwise return `false`.
+ */
+const isEqual = (objOne, objTwo) => {
+    // Get the value type
+    const objOneType = type(objOne);
+
+    // Compare properties
+    if (isArray(objOneType)) {
+        return objOne.every((v, i) => comparator(v, objTwo[i]));
+    }
+
+    return Object.getOwnPropertyNames(objOne).every((key) =>
+        comparator(objOne[key], objTwo[key])
+    );
+};
+
+/**
+ * The default comparator function, which will loop through arrays to compare them.
  * @param  {Any} objOne The first object to compare.
  * @param  {Any} objTwo Compare the first object to this object.
  * @return {Boolean}    Return `true` if the object is the same, otherwise return `false`.
  */
 const comparator = (objOne, objTwo) => {
-    // Compare an object to an object.
-    if (typeof objOne === 'object') {
-        try {
-            assert.deepStrictEqual(objOne, objTwo);
-        } catch (e) {
-            return false;
-        }
+    // Get the object type
+    const objOneType = type(objOne);
 
-        return true;
+    // If an object or array, compare recursively
+    if (isObjectOrArray(objOneType)) {
+        return isEqual(objOne, objTwo);
     }
 
-    // Compare anything that is not (typeof objOne) === 'object' using the simple strict equals.
+    // If it's a function, convert to a string and compare.
+    if (isFunction(objOneType) || isSymbol(objOneType)) {
+        return objOne.toString() === objTwo.toString();
+    }
+
+    // Otherwise, just compare.
     return objOne === objTwo;
 };
 
@@ -82,15 +145,15 @@ const findNewValues = (source, update, opts) =>
 /**
  * Find anything that is exactly the same between the `source` array and the `update` array.
  * @param  {Array} source                  Source array.
- * @param  {Array} removeCreateAndChanged  An updated version of the source array.
+ * @param  {Array} removedCreatedChanged  An updated version of the source array.
  * @param  {Object} opts                   An Object containing information to alter the outcome of the function.
  * @return {Array}                         An array of items that appear in the `update` array and exactly match
  *                                         their counterpart in the `source` array.
  */
-const findUnchangedValues = (source, removeCreateAndChanged, opts) =>
+const findUnchangedValues = (source, removedCreatedChanged, opts) =>
     source.filter(function(sourceValue) {
         return (
-            removeCreateAndChanged.find(function(element, index, array) {
+            removedCreatedChanged.find(function(element, index, array) {
                 // If we have a key, we only want to compare the actual key is the same.
                 if (opts.key) {
                     return (
@@ -184,16 +247,28 @@ module.exports = function arraySync(source, update, opts = {}) {
 
     // Default return object.
     const r = {
-        remove: [],
+        get create() {
+            console.log(
+                'DeprecationWarning: The create property has been deprecated, use the created property instead.'
+            );
+            return this.removed;
+        },
+        get remove() {
+            console.log(
+                'DeprecationWarning: The remove property has been deprecated, use the removed property instead.'
+            );
+            return this.removed;
+        },
+        removed: [],
         unchanged: [],
-        create: []
+        created: []
     };
 
     // Find the missing values.
-    r.remove = findMissingValues(source, update, opts);
+    r.removed = findMissingValues(source, update, opts);
 
     // Find the new values.
-    r.create = findNewValues(source, update, opts);
+    r.created = findNewValues(source, update, opts);
 
     // Add support for a more complex evaluation of Objects, if the `opts.key` has been provided.
     if (opts.key) {
@@ -203,13 +278,13 @@ module.exports = function arraySync(source, update, opts = {}) {
     // Determine the unchanged values (those that aren't new, nor missing).
     r.unchanged = findUnchangedValues(
         source,
-        r.remove.concat(r.create, r.changed || []),
+        r.removed.concat(r.created, r.changed || []),
         opts
     );
 
     // If we have a `key`, transform the results to contain only the key Object.
     if (opts.key && opts.keyOnly) {
-        r.remove = mapToKey(r.remove, opts.key);
+        r.removed = mapToKey(r.removed, opts.key);
         r.unchanged = mapToKey(r.unchanged, opts.key);
     }
 
