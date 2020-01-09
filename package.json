@@ -34,7 +34,7 @@
         "clone": "2.1.2",
         "codecov": "3.6.1",
         "eslint-config-prettier": "6.5.0",
-        "husky": "3.0.9",
+        "husky": "4.0.3",
         "jest": "24.9.0",
         "prettier": "1.19.1",
         "pretty-quick": "2.0.1"
