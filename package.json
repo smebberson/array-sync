@@ -32,7 +32,7 @@
     "homepage": "https://github.com/smebberson/array-sync#readme",
     "devDependencies": {
         "clone": "2.1.2",
-        "codecov": "3.6.1",
+        "codecov": "3.6.2",
         "eslint-config-prettier": "6.10.0",
         "husky": "4.0.10",
         "jest": "24.9.0",
