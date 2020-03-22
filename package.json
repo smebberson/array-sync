@@ -33,7 +33,7 @@
     "devDependencies": {
         "clone": "2.1.2",
         "codecov": "3.6.5",
-        "eslint-config-prettier": "6.10.0",
+        "eslint-config-prettier": "6.10.1",
         "husky": "4.2.3",
         "jest": "25.1.0",
         "prettier": "2.0.1",
